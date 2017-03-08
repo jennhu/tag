@@ -1,0 +1,21 @@
+FOREST john_saw_a_girl =
+
+SET john:
+  [np 'john'] ; 
+  [e 'j'].
+
+SET a_girl:  		
+  [np 'a_girl'] ;
+  [t [exists $g 
+	 [t [et 'girl'] [e $g]] 
+	 [t*]]] ;
+  [e $g].	
+
+SET saw:	
+  [s [np!@1] [vp [v 'saw'] [np!@2]]] ;
+  [t@2 [et [eet 'saw'] [e!@2]] [e!@1]].
+
+DERIV john_saw_a_girl:	  		
+  saw				
+	@1:[john]					
+	@2:[a_girl].

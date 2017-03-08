@@ -1,0 +1,10 @@
+### Starting build.
+# Target: out.ml.depends, tags: { extension:ml, file:out.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules out.ml > out.ml.depends
+# Target: out.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:out.cmo, file:out.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o out.cmo out.ml
++ /usr/local/bin/ocamlc.opt -c -o out.cmo out.ml
+File "out.ml", line 1, characters 5-10:
+Error: Unbound module Unify
+Command exited with code 2.
+# Compilation unsuccessful.

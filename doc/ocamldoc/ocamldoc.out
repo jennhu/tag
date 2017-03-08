@@ -1,0 +1,1740 @@
+\documentclass[11pt]{article} 
+\usepackage[latin1]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{textcomp}
+\usepackage{fullpage} 
+\usepackage{url} 
+\usepackage{ocamldoc}
+\begin{document}
+\tableofcontents
+\section{Module {\tt{Unify}}}
+\label{module:Unify}\index{Unify@\verb`Unify`}
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{type:Unify.feature}\begin{ocamldoccode}
+type feature = string 
+\end{ocamldoccode}
+\index{feature@\verb`feature`}
+
+
+
+
+\label{type:Unify.fv}\begin{ocamldoccode}
+type fv =
+  | Var of int
+  | Val of string
+  | Forward of fvalue
+\end{ocamldoccode}
+\index{fv@\verb`fv`}
+
+
+
+
+\label{type:Unify.fvalue}\begin{ocamldoccode}
+type fvalue = fv Pervasives.ref 
+\end{ocamldoccode}
+\index{fvalue@\verb`fvalue`}
+
+
+
+
+\label{val:Unify.newint}\begin{ocamldoccode}
+val newint : unit -> int
+\end{ocamldoccode}
+\index{newint@\verb`newint`}
+
+
+
+
+\label{val:Unify.label}\begin{ocamldoccode}
+val label : string -> fv Pervasives.ref
+\end{ocamldoccode}
+\index{label@\verb`label`}
+
+
+
+
+\label{val:Unify.varlabel}\begin{ocamldoccode}
+val varlabel : int -> fv Pervasives.ref
+\end{ocamldoccode}
+\index{varlabel@\verb`varlabel`}
+
+
+
+
+\label{val:Unify.dereference}\begin{ocamldoccode}
+val dereference : fvalue -> fvalue
+\end{ocamldoccode}
+\index{dereference@\verb`dereference`}
+
+
+
+
+\label{val:Unify.union}\begin{ocamldoccode}
+val union : {\textquotesingle}a list -> {\textquotesingle}a list -> {\textquotesingle}a list
+\end{ocamldoccode}
+\index{union@\verb`union`}
+
+
+
+
+\label{val:Unify.string-underscoreof-underscorefval}\begin{ocamldoccode}
+val string_of_fval : fv Pervasives.ref -> string
+\end{ocamldoccode}
+\index{string-underscoreof-underscorefval@\verb`string_of_fval`}
+
+
+
+
+\label{exception:Unify.AlreadyDefined}\begin{ocamldoccode}
+exception AlreadyDefined
+\end{ocamldoccode}
+\index{AlreadyDefined@\verb`AlreadyDefined`}
+
+
+
+
+\label{exception:Unify.UnificationFailure}\begin{ocamldoccode}
+exception UnificationFailure
+\end{ocamldoccode}
+\index{UnificationFailure@\verb`UnificationFailure`}
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class fs : }}\end{ocamldoccode}
+\label{class:Unify.fs}\index{fs@\verb`fs`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Unify.fs.pairs}\begin{ocamldoccode}
+val mutable pairs : (Unify.feature * Unify.fvalue) list
+\end{ocamldoccode}
+\index{pairs@\verb`pairs`}
+
+
+\label{method:Unify.fs.features}\begin{ocamldoccode}
+method features : Unify.feature list
+\end{ocamldoccode}
+\index{features@\verb`features`}
+
+
+\label{method:Unify.fs.definedp}\begin{ocamldoccode}
+method definedp : Unify.feature -> bool
+\end{ocamldoccode}
+\index{definedp@\verb`definedp`}
+
+
+\label{method:Unify.fs.lookup}\begin{ocamldoccode}
+method lookup : Unify.feature -> Unify.fvalue
+\end{ocamldoccode}
+\index{lookup@\verb`lookup`}
+
+
+\label{method:Unify.fs.extend}\begin{ocamldoccode}
+method extend : Unify.feature -> Unify.fvalue -> unit
+\end{ocamldoccode}
+\index{extend@\verb`extend`}
+
+
+\label{method:Unify.fs.unify-underscorefeatures}\begin{ocamldoccode}
+method unify_features : Unify.feature -> Unify.feature -> unit
+\end{ocamldoccode}
+\index{unify-underscorefeatures@\verb`unify_features`}
+
+
+\label{method:Unify.fs.unify}\begin{ocamldoccode}
+method unify : Unify.fs -> unit
+\end{ocamldoccode}
+\index{unify@\verb`unify`}
+
+
+\label{method:Unify.fs.print}\begin{ocamldoccode}
+method print : unit
+\end{ocamldoccode}
+\index{print@\verb`print`}
+
+
+\label{method:Unify.fs.check}\begin{ocamldoccode}
+method check : Unify.fs -> bool
+\end{ocamldoccode}
+\index{check@\verb`check`}
+
+
+\label{method:Unify.fs.hasv}\begin{ocamldoccode}
+method hasv : Unify.fv -> bool
+\end{ocamldoccode}
+\index{hasv@\verb`hasv`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Unify.makefs}\begin{ocamldoccode}
+val makefs : (feature * fvalue) list -> fs
+\end{ocamldoccode}
+\index{makefs@\verb`makefs`}
+
+
+\section{Module {\tt{Basics}} : Removes duplicates from a list.}
+\label{module:Basics}\index{Basics@\verb`Basics`}
+ Found at
+		{\tt{https://gist.github.com/23Skidoo/1664038}}.
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{val:Basics.dedup}\begin{ocamldoccode}
+val dedup : {\textquotesingle}a list -> {\textquotesingle}a list
+\end{ocamldoccode}
+\index{dedup@\verb`dedup`}
+\begin{ocamldocdescription}
+Removes duplicates from a list. Found at
+		{\tt{https://gist.github.com/23Skidoo/1664038}}.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.inds}\begin{ocamldoccode}
+val inds : {\textquotesingle}a list -> int list
+\end{ocamldoccode}
+\index{inds@\verb`inds`}
+\begin{ocamldocdescription}
+Creates a list of indices corresponding to an input list.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.combinations}\begin{ocamldoccode}
+val combinations : int -> {\textquotesingle}a list -> {\textquotesingle}a list list
+\end{ocamldoccode}
+\index{combinations@\verb`combinations`}
+\begin{ocamldocdescription}
+n choose k, where n is the length of the input list.
+    {\tt{https://ocaml.org/learn/tutorials/99problems.html}}
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.without}\begin{ocamldoccode}
+val without : {\textquotesingle}a -> {\textquotesingle}a list -> {\textquotesingle}a list
+\end{ocamldoccode}
+\index{without@\verb`without`}
+\begin{ocamldocdescription}
+Helper function for permutations.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.permutations}\begin{ocamldoccode}
+val permutations : {\textquotesingle}a list -> {\textquotesingle}a list list
+\end{ocamldoccode}
+\index{permutations@\verb`permutations`}
+\begin{ocamldocdescription}
+Generates permutations of a list in lexicographic order, which
+    allows us to deal with ambiguous derivations. Found in the book
+    "More OCaml: Algorithms, Methods \& Diversions" by John Whitington.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.filestr}\begin{ocamldoccode}
+val filestr : string -> bytes
+\end{ocamldoccode}
+\index{filestr@\verb`filestr`}
+\begin{ocamldocdescription}
+Reads a file into a single string. Found at
+    {\tt{https://www.rosettacode.org/wiki/Read\_entire\_file{\char35}OCaml}}
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.sep}\begin{ocamldoccode}
+val sep : string -> string list -> string
+\end{ocamldoccode}
+\index{sep@\verb`sep`}
+\begin{ocamldocdescription}
+Alias.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.brack}\begin{ocamldoccode}
+val brack : string -> string
+\end{ocamldoccode}
+\index{brack@\verb`brack`}
+\begin{ocamldocdescription}
+Functions for delimiting strings, used for printing.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Basics.paren}\begin{ocamldoccode}
+val paren : string -> string
+\end{ocamldoccode}
+\index{paren@\verb`paren`}
+
+
+
+
+\label{val:Basics.lstr}\begin{ocamldoccode}
+val lstr : string list -> string
+\end{ocamldoccode}
+\index{lstr@\verb`lstr`}
+
+
+
+
+\label{val:Basics.indent}\begin{ocamldoccode}
+val indent : int -> string -> string
+\end{ocamldoccode}
+\index{indent@\verb`indent`}
+\begin{ocamldocdescription}
+Indents a string at every newline (including the beginning
+    of the first line) by a specified number of tabs.
+
+
+\end{ocamldocdescription}
+
+
+\section{Module {\tt{Tree}} : Gorn numbers to identify every node.}
+\label{module:Tree}\index{Tree@\verb`Tree`}
+
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{type:Tree.word}\begin{ocamldoccode}
+type word = string 
+\end{ocamldoccode}
+\index{word@\verb`word`}
+
+
+
+
+\label{type:Tree.var}\begin{ocamldoccode}
+type var = string 
+\end{ocamldoccode}
+\index{var@\verb`var`}
+
+
+
+
+\label{type:Tree.categ}\begin{ocamldoccode}
+type categ = string 
+\end{ocamldoccode}
+\index{categ@\verb`categ`}
+
+
+
+
+\label{type:Tree.quant}\begin{ocamldoccode}
+type quant = string 
+\end{ocamldoccode}
+\index{quant@\verb`quant`}
+
+
+
+
+\label{type:Tree.linkindex}\begin{ocamldoccode}
+type linkindex = int 
+\end{ocamldoccode}
+\index{linkindex@\verb`linkindex`}
+
+
+
+
+\label{type:Tree.treeindex}\begin{ocamldoccode}
+type treeindex = int 
+\end{ocamldoccode}
+\index{treeindex@\verb`treeindex`}
+
+
+
+
+\label{type:Tree.address}\begin{ocamldoccode}
+type address = int list 
+\end{ocamldoccode}
+\index{address@\verb`address`}
+\begin{ocamldocdescription}
+Gorn numbers to identify every node.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{type:Tree.tfs}\begin{ocamldoccode}
+type tfs = {\char123}
+  top : Unify.fs ;
+  bot : Unify.fs ;
+{\char125}
+\end{ocamldoccode}
+\index{tfs@\verb`tfs`}
+\begin{ocamldocdescription}
+Top and bottom feature structures for a node.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{type:Tree.ttype}\begin{ocamldoccode}
+type ttype =
+  | Init
+  | Aux
+\end{ocamldoccode}
+\index{ttype@\verb`ttype`}
+\begin{ocamldocdescription}
+Specifies whether a tree is an initial or auxiliary tree.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{type:Tree.t}\begin{ocamldoccode}
+type t =
+  | Empty
+  | Leaf of word
+  | Var of categ * linkindex list * tfs * var
+  | Node of categ * linkindex list * tfs * t list
+  | Sub of categ * linkindex list * tfs
+  | Foot of categ * linkindex list * tfs
+  | Quant of quant * var * t * t
+\end{ocamldoccode}
+\index{t@\verb`t`}
+\begin{ocamldocdescription}
+Recursive branching structure of tree.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{exception:Tree.NoCategory}\begin{ocamldoccode}
+exception NoCategory
+\end{ocamldoccode}
+\index{NoCategory@\verb`NoCategory`}
+
+
+
+
+\label{exception:Tree.NoLinks}\begin{ocamldoccode}
+exception NoLinks
+\end{ocamldoccode}
+\index{NoLinks@\verb`NoLinks`}
+
+
+
+
+\label{exception:Tree.NoFeatures}\begin{ocamldoccode}
+exception NoFeatures
+\end{ocamldoccode}
+\index{NoFeatures@\verb`NoFeatures`}
+
+
+
+
+\label{exception:Tree.NoFoot}\begin{ocamldoccode}
+exception NoFoot
+\end{ocamldoccode}
+\index{NoFoot@\verb`NoFoot`}
+
+
+
+
+\label{exception:Tree.InvalidAddress}\begin{ocamldoccode}
+exception InvalidAddress
+\end{ocamldoccode}
+\index{InvalidAddress@\verb`InvalidAddress`}
+
+
+
+
+\label{exception:Tree.InitFunction}\begin{ocamldoccode}
+exception InitFunction
+\end{ocamldoccode}
+\index{InitFunction@\verb`InitFunction`}
+
+
+
+
+\label{val:Tree.cat}\begin{ocamldoccode}
+val cat : t -> categ
+\end{ocamldoccode}
+\index{cat@\verb`cat`}
+
+
+
+
+\label{val:Tree.ls}\begin{ocamldoccode}
+val ls : t -> linkindex list
+\end{ocamldoccode}
+\index{ls@\verb`ls`}
+
+
+
+
+\label{val:Tree.tfs}\begin{ocamldoccode}
+val tfs : t -> tfs
+\end{ocamldoccode}
+\index{tfs@\verb`tfs`}
+
+
+
+
+\label{val:Tree.is-underscoreaux}\begin{ocamldoccode}
+val is_aux : t -> bool
+\end{ocamldoccode}
+\index{is-underscoreaux@\verb`is_aux`}
+
+
+
+
+\label{val:Tree.foot}\begin{ocamldoccode}
+val foot : t -> t
+\end{ocamldoccode}
+\index{foot@\verb`foot`}
+
+
+
+
+\label{val:Tree.tsfoot}\begin{ocamldoccode}
+val tsfoot : t list -> t
+\end{ocamldoccode}
+\index{tsfoot@\verb`tsfoot`}
+
+
+
+
+\label{val:Tree.unify-underscoretb}\begin{ocamldoccode}
+val unify_tb : t -> unit
+\end{ocamldoccode}
+\index{unify-underscoretb@\verb`unify_tb`}
+\begin{ocamldocdescription}
+Unifies the top and bottom features for every node in t,
+    raising UnificationFailure if there is any incompatibility.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Tree.replace-underscoretfs}\begin{ocamldoccode}
+val replace_tfs : t -> tfs -> t
+\end{ocamldoccode}
+\index{replace-underscoretfs@\verb`replace_tfs`}
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class tree : }}\end{ocamldoccode}
+\label{class:Tree.tree}\index{tree@\verb`tree`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Tree.tree.t}\begin{ocamldoccode}
+val mutable t : Tree.t
+\end{ocamldoccode}
+\index{t@\verb`t`}
+
+
+\label{method:Tree.tree.t}\begin{ocamldoccode}
+method t : Tree.t
+\end{ocamldoccode}
+\index{t@\verb`t`}
+
+
+\label{method:Tree.tree.update-underscoret}\begin{ocamldoccode}
+method update_t : Tree.t -> unit
+\end{ocamldoccode}
+\index{update-underscoret@\verb`update_t`}
+
+
+\label{method:Tree.tree.cat}\begin{ocamldoccode}
+method cat : Tree.categ
+\end{ocamldoccode}
+\index{cat@\verb`cat`}
+
+
+\label{method:Tree.tree.ls}\begin{ocamldoccode}
+method ls : Tree.linkindex list
+\end{ocamldoccode}
+\index{ls@\verb`ls`}
+
+
+\label{method:Tree.tree.tfs}\begin{ocamldoccode}
+method tfs : Tree.tfs
+\end{ocamldoccode}
+\index{tfs@\verb`tfs`}
+
+
+\label{method:Tree.tree.ttype}\begin{ocamldoccode}
+method ttype : Tree.ttype
+\end{ocamldoccode}
+\index{ttype@\verb`ttype`}
+
+
+\label{method:Tree.tree.lookup}\begin{ocamldoccode}
+method lookup : Tree.address -> Tree.t
+\end{ocamldoccode}
+\index{lookup@\verb`lookup`}
+
+
+\label{method:Tree.tree.auxfun}\begin{ocamldoccode}
+method auxfun : Tree.t -> Tree.t
+\end{ocamldoccode}
+\index{auxfun@\verb`auxfun`}
+
+
+\label{method:Tree.tree.foot}\begin{ocamldoccode}
+method foot : Tree.t
+\end{ocamldoccode}
+\index{foot@\verb`foot`}
+
+
+\label{method:Tree.tree.haslink}\begin{ocamldoccode}
+method haslink : Tree.linkindex -> bool
+\end{ocamldoccode}
+\index{haslink@\verb`haslink`}
+
+
+\label{method:Tree.tree.unify}\begin{ocamldoccode}
+method unify : unit
+\end{ocamldoccode}
+\index{unify@\verb`unify`}
+
+
+\label{method:Tree.tree.unifysub}\begin{ocamldoccode}
+method unifysub : Tree.t -> unit
+\end{ocamldoccode}
+\index{unifysub@\verb`unifysub`}
+
+
+\label{method:Tree.tree.unifyadj}\begin{ocamldoccode}
+method unifyadj : Tree.t -> unit
+\end{ocamldoccode}
+\index{unifyadj@\verb`unifyadj`}
+
+
+\label{method:Tree.tree.fscheck}\begin{ocamldoccode}
+method fscheck : Tree.t -> bool
+\end{ocamldoccode}
+\index{fscheck@\verb`fscheck`}
+
+
+\label{method:Tree.tree.brackify}\begin{ocamldoccode}
+method brackify : unit
+\end{ocamldoccode}
+\index{brackify@\verb`brackify`}
+
+
+\label{method:Tree.tree.tostring}\begin{ocamldoccode}
+method tostring : string
+\end{ocamldoccode}
+\index{tostring@\verb`tostring`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Tree.maketree}\begin{ocamldoccode}
+val maketree : t -> tree
+\end{ocamldoccode}
+\index{maketree@\verb`maketree`}
+
+
+\section{Module {\tt{Links}} : Returns a list of (treeindex, address) tuples recording the addresses
+    of all the nodes containing a specified linkindex in the tree.}
+\label{module:Links}\index{Links@\verb`Links`}
+
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{val:Links.tladds}\begin{ocamldoccode}
+val tladds :
+  < t : Tree.t; .. > -> {\textquotesingle}a -> Tree.linkindex -> ({\textquotesingle}a * int list) list
+\end{ocamldoccode}
+\index{tladds@\verb`tladds`}
+\begin{ocamldocdescription}
+Returns a list of (treeindex, address) tuples recording the addresses
+    of all the nodes containing a specified linkindex in the tree.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Links.specs}\begin{ocamldoccode}
+val specs :
+  < lookup : int list -> Tree.t; t : Tree.t; .. > list ->
+  Tree.linkindex -> ((int * int list) * Tree.categ) list
+\end{ocamldoccode}
+\index{specs@\verb`specs`}
+\begin{ocamldocdescription}
+Returns a list of ((treeindex * address) * categ) tuples.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class linkspec : }}\end{ocamldoccode}
+\label{class:Links.linkspec}\index{linkspec@\verb`linkspec`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Links.linkspec.index}\begin{ocamldoccode}
+val mutable index : Tree.linkindex
+\end{ocamldoccode}
+\index{index@\verb`index`}
+
+
+\label{val:Links.linkspec.specs}\begin{ocamldoccode}
+val mutable specs : ((Tree.treeindex * Tree.address) * Tree.categ) list
+\end{ocamldoccode}
+\index{specs@\verb`specs`}
+
+
+\label{method:Links.linkspec.index}\begin{ocamldoccode}
+method index : Tree.linkindex
+\end{ocamldoccode}
+\index{index@\verb`index`}
+
+
+\label{method:Links.linkspec.specs}\begin{ocamldoccode}
+method specs : ((Tree.treeindex * Tree.address) * Tree.categ) list
+\end{ocamldoccode}
+\index{specs@\verb`specs`}
+
+
+\label{method:Links.linkspec.update-underscoreindex}\begin{ocamldoccode}
+method update_index : Tree.linkindex -> unit
+\end{ocamldoccode}
+\index{update-underscoreindex@\verb`update_index`}
+
+
+\label{method:Links.linkspec.update-underscorespecs}\begin{ocamldoccode}
+method update_specs :
+  ((Tree.treeindex * Tree.address) * Tree.categ) list -> unit
+\end{ocamldoccode}
+\index{update-underscorespecs@\verb`update_specs`}
+
+
+\label{method:Links.linkspec.print}\begin{ocamldoccode}
+method print : unit
+\end{ocamldoccode}
+\index{print@\verb`print`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class links : }}\end{ocamldoccode}
+\label{class:Links.links}\index{links@\verb`links`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Links.links.linkspecs}\begin{ocamldoccode}
+val mutable linkspecs : Links.linkspec list
+\end{ocamldoccode}
+\index{linkspecs@\verb`linkspecs`}
+
+
+\label{method:Links.links.linkspecs}\begin{ocamldoccode}
+method linkspecs : Links.linkspec list
+\end{ocamldoccode}
+\index{linkspecs@\verb`linkspecs`}
+
+
+\label{method:Links.links.update-underscorelinkspecs}\begin{ocamldoccode}
+method update_linkspecs : Links.linkspec list -> unit
+\end{ocamldoccode}
+\index{update-underscorelinkspecs@\verb`update_linkspecs`}
+
+
+\label{method:Links.links.link}\begin{ocamldoccode}
+method link : Tree.linkindex -> Links.linkspec
+\end{ocamldoccode}
+\index{link@\verb`link`}
+
+
+\label{method:Links.links.rels}\begin{ocamldoccode}
+method rels : Tree.linkindex list -> Links.linkspec list
+\end{ocamldoccode}
+\index{rels@\verb`rels`}
+
+
+\label{method:Links.links.print}\begin{ocamldoccode}
+method print : unit
+\end{ocamldoccode}
+\index{print@\verb`print`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Links.scope}\begin{ocamldoccode}
+val scope : links -> Tree.linkindex list -> (Tree.linkindex * int) list
+\end{ocamldoccode}
+\index{scope@\verb`scope`}
+
+
+
+
+\label{val:Links.makelinkspecs}\begin{ocamldoccode}
+val makelinkspecs :
+  < lookup : Tree.address -> Tree.t; t : Tree.t; .. > list ->
+  Tree.linkindex -> linkspec
+\end{ocamldoccode}
+\index{makelinkspecs@\verb`makelinkspecs`}
+
+
+
+
+\label{val:Links.makelinks}\begin{ocamldoccode}
+val makelinks :
+  < lookup : Tree.address -> Tree.t; t : Tree.t; .. > list ->
+  Tree.linkindex list -> links
+\end{ocamldoccode}
+\index{makelinks@\verb`makelinks`}
+
+
+
+
+\label{val:Links.linksofspecs}\begin{ocamldoccode}
+val linksofspecs : linkspec list -> links
+\end{ocamldoccode}
+\index{linksofspecs@\verb`linksofspecs`}
+
+
+\section{Module {\tt{Treeset}} : Rearranges the tree list so that initial trees come first in the set.}
+\label{module:Treeset}\index{Treeset@\verb`Treeset`}
+
+    Used for substitution, in case we need to adjoin at a Sub node.
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{type:Treeset.id}\begin{ocamldoccode}
+type id = string 
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class treeset : }}\end{ocamldoccode}
+\label{class:Treeset.treeset}\index{treeset@\verb`treeset`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Treeset.treeset.id}\begin{ocamldoccode}
+val mutable id : Treeset.id
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+\label{val:Treeset.treeset.trees}\begin{ocamldoccode}
+val mutable trees : Tree.tree list
+\end{ocamldoccode}
+\index{trees@\verb`trees`}
+
+
+\label{method:Treeset.treeset.id}\begin{ocamldoccode}
+method id : Treeset.id
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+\label{method:Treeset.treeset.trees}\begin{ocamldoccode}
+method trees : Tree.tree list
+\end{ocamldoccode}
+\index{trees@\verb`trees`}
+
+
+\label{method:Treeset.treeset.update-underscoreid}\begin{ocamldoccode}
+method update_id : Treeset.id -> unit
+\end{ocamldoccode}
+\index{update-underscoreid@\verb`update_id`}
+
+
+\label{method:Treeset.treeset.update-underscoretrees}\begin{ocamldoccode}
+method update_trees : Tree.tree list -> unit
+\end{ocamldoccode}
+\index{update-underscoretrees@\verb`update_trees`}
+
+
+\label{method:Treeset.treeset.ith}\begin{ocamldoccode}
+method ith : int -> Tree.tree
+\end{ocamldoccode}
+\index{ith@\verb`ith`}
+
+
+\label{method:Treeset.treeset.perms}\begin{ocamldoccode}
+method perms : Tree.tree list list
+\end{ocamldoccode}
+\index{perms@\verb`perms`}
+
+
+\label{method:Treeset.treeset.ls}\begin{ocamldoccode}
+method ls : Tree.linkindex list
+\end{ocamldoccode}
+\index{ls@\verb`ls`}
+
+
+\label{method:Treeset.treeset.links}\begin{ocamldoccode}
+method links : Links.links
+\end{ocamldoccode}
+\index{links@\verb`links`}
+
+
+\label{method:Treeset.treeset.numhaslink}\begin{ocamldoccode}
+method numhaslink : Tree.linkindex -> int
+\end{ocamldoccode}
+\index{numhaslink@\verb`numhaslink`}
+
+
+\label{method:Treeset.treeset.unify}\begin{ocamldoccode}
+method unify : unit
+\end{ocamldoccode}
+\index{unify@\verb`unify`}
+
+
+\label{method:Treeset.treeset.brackify}\begin{ocamldoccode}
+method brackify : unit
+\end{ocamldoccode}
+\index{brackify@\verb`brackify`}
+
+
+\label{method:Treeset.treeset.tostring}\begin{ocamldoccode}
+method tostring : string
+\end{ocamldoccode}
+\index{tostring@\verb`tostring`}
+
+
+\label{method:Treeset.treeset.tofunction}\begin{ocamldoccode}
+method tofunction : string
+\end{ocamldoccode}
+\index{tofunction@\verb`tofunction`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Treeset.initfirst}\begin{ocamldoccode}
+val initfirst : (< ttype : Tree.ttype; .. > as {\textquotesingle}a) list -> {\textquotesingle}a list
+\end{ocamldoccode}
+\index{initfirst@\verb`initfirst`}
+\begin{ocamldocdescription}
+Rearranges the tree list so that initial trees come first in the set.
+    Used for substitution, in case we need to adjoin at a Sub node.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Treeset.reorder-underscorepriority}\begin{ocamldoccode}
+val reorder_priority :
+  (< ith : {\textquotesingle}b -> {\textquotesingle}c; update_trees : {\textquotesingle}c list -> {\textquotesingle}d; .. > as {\textquotesingle}a) ->
+  {\textquotesingle}b list option -> {\textquotesingle}a
+\end{ocamldoccode}
+\index{reorder-underscorepriority@\verb`reorder_priority`}
+\begin{ocamldocdescription}
+Reorders the trees in a treeset according to a priority ordering,
+    which is specified by the user in the derivation tree. Note that this
+    operation is destructive.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Treeset.makeset}\begin{ocamldoccode}
+val makeset : id -> Tree.tree list -> treeset
+\end{ocamldoccode}
+\index{makeset@\verb`makeset`}
+
+
+
+
+\label{val:Treeset.setoftrees}\begin{ocamldoccode}
+val setoftrees : Tree.tree list -> treeset
+\end{ocamldoccode}
+\index{setoftrees@\verb`setoftrees`}
+
+
+
+
+\label{val:Treeset.setofts}\begin{ocamldoccode}
+val setofts : Tree.t list -> treeset
+\end{ocamldoccode}
+\index{setofts@\verb`setofts`}
+
+
+\section{Module {\tt{Forest}}}
+\label{module:Forest}\index{Forest@\verb`Forest`}
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\begin{ocamldoccode}
+{\tt{class forest : }}\end{ocamldoccode}
+\label{class:Forest.forest}\index{forest@\verb`forest`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Forest.forest.id}\begin{ocamldoccode}
+val mutable id : Treeset.id
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+\label{val:Forest.forest.sets}\begin{ocamldoccode}
+val mutable sets : Treeset.treeset list
+\end{ocamldoccode}
+\index{sets@\verb`sets`}
+
+
+\label{method:Forest.forest.id}\begin{ocamldoccode}
+method id : Treeset.id
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+\label{method:Forest.forest.sets}\begin{ocamldoccode}
+method sets : Treeset.treeset list
+\end{ocamldoccode}
+\index{sets@\verb`sets`}
+
+
+\label{method:Forest.forest.update-underscoreid}\begin{ocamldoccode}
+method update_id : Treeset.id -> unit
+\end{ocamldoccode}
+\index{update-underscoreid@\verb`update_id`}
+
+
+\label{method:Forest.forest.update-underscoresets}\begin{ocamldoccode}
+method update_sets : Treeset.treeset list -> unit
+\end{ocamldoccode}
+\index{update-underscoresets@\verb`update_sets`}
+
+
+\label{method:Forest.forest.brackify}\begin{ocamldoccode}
+method brackify : unit
+\end{ocamldoccode}
+\index{brackify@\verb`brackify`}
+
+
+\label{method:Forest.forest.tostring}\begin{ocamldoccode}
+method tostring : string
+\end{ocamldoccode}
+\index{tostring@\verb`tostring`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Forest.makeforest}\begin{ocamldoccode}
+val makeforest : Treeset.id -> Treeset.treeset list -> forest
+\end{ocamldoccode}
+\index{makeforest@\verb`makeforest`}
+
+
+\section{Module {\tt{Argument}} : Allows treesets to be used across multiple links.}
+\label{module:Argument}\index{Argument@\verb`Argument`}
+
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{type:Argument.linkset}\begin{ocamldoccode}
+type linkset =
+  | Single of Tree.linkindex
+  | Union of Tree.linkindex list
+\end{ocamldoccode}
+\index{linkset@\verb`linkset`}
+\begin{ocamldocdescription}
+Allows treesets to be used across multiple links.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{type:Argument.arg}\begin{ocamldoccode}
+type arg = linkset * Treeset.treeset list 
+\end{ocamldoccode}
+\index{arg@\verb`arg`}
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class arguments : }}\end{ocamldoccode}
+\label{class:Argument.arguments}\index{arguments@\verb`arguments`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Argument.arguments.args}\begin{ocamldoccode}
+val mutable args : Argument.arg list
+\end{ocamldoccode}
+\index{args@\verb`args`}
+
+
+\label{method:Argument.arguments.args}\begin{ocamldoccode}
+method args : Argument.arg list
+\end{ocamldoccode}
+\index{args@\verb`args`}
+
+
+\label{method:Argument.arguments.update-underscoreargs}\begin{ocamldoccode}
+method update_args : Argument.arg list -> unit
+\end{ocamldoccode}
+\index{update-underscoreargs@\verb`update_args`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Argument.makearguments}\begin{ocamldoccode}
+val makearguments : arg list -> arguments
+\end{ocamldoccode}
+\index{makearguments@\verb`makearguments`}
+
+
+
+
+\label{val:Argument.reorder-underscorescope}\begin{ocamldoccode}
+val reorder_scope : {\textquotesingle}a list list -> ({\textquotesingle}b * int) list -> {\textquotesingle}a list
+\end{ocamldoccode}
+\index{reorder-underscorescope@\verb`reorder_scope`}
+
+
+
+
+\label{val:Argument.renamevars}\begin{ocamldoccode}
+val renamevars :
+  < trees : < t : Tree.t; .. > list; .. > list ->
+  linkset -> Treeset.treeset list
+\end{ocamldoccode}
+\index{renamevars@\verb`renamevars`}
+
+
+\section{Module {\tt{Derive}} : Checks if an ordered list of trees is valid, based on whether it
+		satisfies two conditions: 
+			(1) The categories in the ordering must match the categories of
+					the parallel trees in the original treeset.}
+\label{module:Derive}\index{Derive@\verb`Derive`}
+
+			(2) The parallel features must pass a "quick check", which checks
+					if the features are compatible on a surface level without actually
+					performing full unification.
+		Note that any operation type mismatches will raise errors in the
+		subst/adjoin functions, so there is no need to check them here.
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{exception:Derive.AdjoinCatClash}\begin{ocamldoccode}
+exception AdjoinCatClash
+\end{ocamldoccode}
+\index{AdjoinCatClash@\verb`AdjoinCatClash`}
+
+
+
+
+\label{exception:Derive.SubCatClash}\begin{ocamldoccode}
+exception SubCatClash
+\end{ocamldoccode}
+\index{SubCatClash@\verb`SubCatClash`}
+
+
+
+
+\label{exception:Derive.SubTypeClash}\begin{ocamldoccode}
+exception SubTypeClash
+\end{ocamldoccode}
+\index{SubTypeClash@\verb`SubTypeClash`}
+
+
+
+
+\label{exception:Derive.NoValidPartition}\begin{ocamldoccode}
+exception NoValidPartition
+\end{ocamldoccode}
+\index{NoValidPartition@\verb`NoValidPartition`}
+
+
+
+
+\label{exception:Derive.LinksTreesMismatch}\begin{ocamldoccode}
+exception LinksTreesMismatch
+\end{ocamldoccode}
+\index{LinksTreesMismatch@\verb`LinksTreesMismatch`}
+
+
+
+
+\label{val:Derive.isvalid}\begin{ocamldoccode}
+val isvalid :
+  Treeset.treeset ->
+  ((int * Tree.address) * Tree.categ) list -> Tree.tree list -> bool
+\end{ocamldoccode}
+\index{isvalid@\verb`isvalid`}
+
+
+
+
+\label{val:Derive.order}\begin{ocamldoccode}
+val order :
+  Treeset.treeset -> Tree.linkindex -> Treeset.treeset -> Tree.tree list
+\end{ocamldoccode}
+\index{order@\verb`order`}
+
+
+
+
+\label{val:Derive.clean}\begin{ocamldoccode}
+val clean :
+  Treeset.treeset ->
+  Tree.linkindex -> Treeset.treeset list -> Treeset.treeset list
+\end{ocamldoccode}
+\index{clean@\verb`clean`}
+
+
+
+
+\label{val:Derive.adjoin}\begin{ocamldoccode}
+val adjoin : Tree.tree list -> Tree.t -> Tree.t
+\end{ocamldoccode}
+\index{adjoin@\verb`adjoin`}
+\begin{ocamldocdescription}
+Adjunction operation in MCTAG. Type errors are caught in auxfun,
+		which raises InitFunction if an initial tree is applied as a function.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Derive.subst}\begin{ocamldoccode}
+val subst : Tree.tree list -> Tree.t -> Tree.t
+\end{ocamldoccode}
+\index{subst@\verb`subst`}
+\begin{ocamldocdescription}
+Substitution operation in MCTAG. The input trees must contain 
+		exactly one Init tree and an optional list of Aux trees. 
+		This allows for adjunction at substitution nodes, e.g. for
+		"pics of" noun phrases.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Derive.splitarg}\begin{ocamldoccode}
+val splitarg :
+  Treeset.treeset ->
+  Argument.arg -> (Argument.linkset * Treeset.treeset list) list
+\end{ocamldoccode}
+\index{splitarg@\verb`splitarg`}
+\begin{ocamldocdescription}
+For a single arg, which specifies a list of sets meant to be used
+		at a set of links, splitarg partitions the list into sublists that
+		contain sets meant to be used at single links.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Derive.split}\begin{ocamldoccode}
+val split :
+  Treeset.treeset ->
+  Argument.arguments -> (Argument.linkset * Treeset.treeset list) list
+\end{ocamldoccode}
+\index{split@\verb`split`}
+\begin{ocamldocdescription}
+Partitions the list of input treesets across single links for all arguments.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Derive.trees-underscorefor-underscoreop}\begin{ocamldoccode}
+val trees_for_op :
+  Tree.linkindex list ->
+  Links.links ->
+  Tree.treeindex * Tree.address -> Argument.arg list -> Tree.tree list
+\end{ocamldoccode}
+\index{trees-underscorefor-underscoreop@\verb`trees_for_op`}
+
+
+
+
+\label{val:Derive.apply}\begin{ocamldoccode}
+val apply :
+  Tree.tree -> Tree.treeindex -> Links.links -> Argument.arg list -> Tree.tree
+\end{ocamldoccode}
+\index{apply@\verb`apply`}
+
+
+
+
+\label{val:Derive.derive}\begin{ocamldoccode}
+val derive : Treeset.treeset -> Argument.arguments -> Treeset.treeset
+\end{ocamldoccode}
+\index{derive@\verb`derive`}
+
+
+\section{Module {\tt{Derivation}} : An ordering of trees within a treeset.}
+\label{module:Derivation}\index{Derivation@\verb`Derivation`}
+ If no priority
+    is specified in the derivaiton, the default is simply
+    the indices of the trees as specified in the grammar.
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{type:Derivation.priority}\begin{ocamldoccode}
+type priority = Tree.treeindex list 
+\end{ocamldoccode}
+\index{priority@\verb`priority`}
+\begin{ocamldocdescription}
+An ordering of trees within a treeset. If no priority
+    is specified in the derivaiton, the default is simply
+    the indices of the trees as specified in the grammar.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class der : }}\end{ocamldoccode}
+\label{class:Derivation.der}\index{der@\verb`der`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Derivation.der.word}\begin{ocamldoccode}
+val mutable word : Tree.word
+\end{ocamldoccode}
+\index{word@\verb`word`}
+
+
+\label{val:Derivation.der.priority}\begin{ocamldoccode}
+val mutable priority : Derivation.priority option
+\end{ocamldoccode}
+\index{priority@\verb`priority`}
+
+
+\label{val:Derivation.der.lst}\begin{ocamldoccode}
+val mutable lst : (Argument.linkset * Derivation.der list) list
+\end{ocamldoccode}
+\index{lst@\verb`lst`}
+
+
+\label{method:Derivation.der.word}\begin{ocamldoccode}
+method word : Tree.word
+\end{ocamldoccode}
+\index{word@\verb`word`}
+
+
+\label{method:Derivation.der.priority}\begin{ocamldoccode}
+method priority : Derivation.priority option
+\end{ocamldoccode}
+\index{priority@\verb`priority`}
+
+
+\label{method:Derivation.der.lst}\begin{ocamldoccode}
+method lst : (Argument.linkset * Derivation.der list) list
+\end{ocamldoccode}
+\index{lst@\verb`lst`}
+
+
+\label{method:Derivation.der.update-underscoreword}\begin{ocamldoccode}
+method update_word : Tree.word -> unit
+\end{ocamldoccode}
+\index{update-underscoreword@\verb`update_word`}
+
+
+\label{method:Derivation.der.update-underscorepriority}\begin{ocamldoccode}
+method update_priority : Derivation.priority option -> unit
+\end{ocamldoccode}
+\index{update-underscorepriority@\verb`update_priority`}
+
+
+\label{method:Derivation.der.update-underscorelst}\begin{ocamldoccode}
+method update_lst : (Argument.linkset * Derivation.der list) list -> unit
+\end{ocamldoccode}
+\index{update-underscorelst@\verb`update_lst`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\begin{ocamldoccode}
+{\tt{class derivation : }}\end{ocamldoccode}
+\label{class:Derivation.derivation}\index{derivation@\verb`derivation`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Derivation.derivation.id}\begin{ocamldoccode}
+val mutable id : Treeset.id
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+\label{val:Derivation.derivation.der}\begin{ocamldoccode}
+val mutable der : Derivation.der
+\end{ocamldoccode}
+\index{der@\verb`der`}
+
+
+\label{method:Derivation.derivation.id}\begin{ocamldoccode}
+method id : Treeset.id
+\end{ocamldoccode}
+\index{id@\verb`id`}
+
+
+\label{method:Derivation.derivation.der}\begin{ocamldoccode}
+method der : Derivation.der
+\end{ocamldoccode}
+\index{der@\verb`der`}
+
+
+\label{method:Derivation.derivation.update-underscoreid}\begin{ocamldoccode}
+method update_id : Treeset.id -> unit
+\end{ocamldoccode}
+\index{update-underscoreid@\verb`update_id`}
+
+
+\label{method:Derivation.derivation.update-underscoreder}\begin{ocamldoccode}
+method update_der : Derivation.der -> unit
+\end{ocamldoccode}
+\index{update-underscoreder@\verb`update_der`}
+
+
+\label{method:Derivation.derivation.apply}\begin{ocamldoccode}
+method apply : Forest.forest -> unit
+\end{ocamldoccode}
+\index{apply@\verb`apply`}
+\begin{ocamldocdescription}
+Performs a derivation, given a forest and single derivation tree.
+
+
+\end{ocamldocdescription}
+
+
+\label{method:Derivation.derivation.tostring}\begin{ocamldoccode}
+method tostring : Tree.word
+\end{ocamldoccode}
+\index{tostring@\verb`tostring`}
+
+
+\label{method:Derivation.derivation.tofunction}\begin{ocamldoccode}
+method tofunction : string
+\end{ocamldoccode}
+\index{tofunction@\verb`tofunction`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Derivation.makeder}\begin{ocamldoccode}
+val makeder :
+  Tree.word ->
+  priority option ->
+  (Argument.linkset * der list) list -> der
+\end{ocamldoccode}
+\index{makeder@\verb`makeder`}
+
+
+
+
+\label{val:Derivation.makederiv}\begin{ocamldoccode}
+val makederiv : Treeset.id -> der -> derivation
+\end{ocamldoccode}
+\index{makederiv@\verb`makederiv`}
+
+
+\section{Module {\tt{Parsed}}}
+\label{module:Parsed}\index{Parsed@\verb`Parsed`}
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\begin{ocamldoccode}
+{\tt{class parsed : }}\end{ocamldoccode}
+\label{class:Parsed.parsed}\index{parsed@\verb`parsed`}
+
+\begin{ocamldocobjectend}
+
+
+\label{val:Parsed.parsed.forest}\begin{ocamldoccode}
+val mutable forest : Forest.forest
+\end{ocamldoccode}
+\index{forest@\verb`forest`}
+
+
+\label{val:Parsed.parsed.derivs}\begin{ocamldoccode}
+val mutable derivs : Derivation.derivation list
+\end{ocamldoccode}
+\index{derivs@\verb`derivs`}
+
+
+\label{method:Parsed.parsed.forest}\begin{ocamldoccode}
+method forest : Forest.forest
+\end{ocamldoccode}
+\index{forest@\verb`forest`}
+
+
+\label{method:Parsed.parsed.derivs}\begin{ocamldoccode}
+method derivs : Derivation.derivation list
+\end{ocamldoccode}
+\index{derivs@\verb`derivs`}
+
+
+\label{method:Parsed.parsed.update-underscoreforest}\begin{ocamldoccode}
+method update_forest : Forest.forest -> unit
+\end{ocamldoccode}
+\index{update-underscoreforest@\verb`update_forest`}
+
+
+\label{method:Parsed.parsed.update-underscorederivs}\begin{ocamldoccode}
+method update_derivs : Derivation.derivation list -> unit
+\end{ocamldoccode}
+\index{update-underscorederivs@\verb`update_derivs`}
+
+
+\label{method:Parsed.parsed.interpret}\begin{ocamldoccode}
+method interpret : unit
+\end{ocamldoccode}
+\index{interpret@\verb`interpret`}
+
+
+\label{method:Parsed.parsed.compile}\begin{ocamldoccode}
+method compile : string -> unit
+\end{ocamldoccode}
+\index{compile@\verb`compile`}
+\end{ocamldocobjectend}
+
+
+
+
+
+
+\label{val:Parsed.makeparsed}\begin{ocamldoccode}
+val makeparsed : Forest.forest -> Derivation.derivation list -> parsed
+\end{ocamldoccode}
+\index{makeparsed@\verb`makeparsed`}
+
+
+\section{Module {\tt{Main}} : Parses a string and returns a parsed object, which contains a forest 
+		and derivation list.}
+\label{module:Main}\index{Main@\verb`Main`}
+ See myParser.mly for parsing rules and tokens.
+		Source: http://cseweb.ucsd.edu/classes/fa09/cse130/pa4/example/notes.html.
+
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{exception:Main.IncorrectUsage}\begin{ocamldoccode}
+exception IncorrectUsage
+\end{ocamldoccode}
+\index{IncorrectUsage@\verb`IncorrectUsage`}
+
+
+
+
+\label{val:Main.parse}\begin{ocamldoccode}
+val parse : string -> Parsed.parsed
+\end{ocamldoccode}
+\index{parse@\verb`parse`}
+\begin{ocamldocdescription}
+Parses a string and returns a parsed object, which contains a forest 
+		and derivation list. See myParser.mly for parsing rules and tokens.
+		Source: http://cseweb.ucsd.edu/classes/fa09/cse130/pa4/example/notes.html.
+
+
+\end{ocamldocdescription}
+
+
+
+
+\label{val:Main.main}\begin{ocamldoccode}
+val main : unit -> unit
+\end{ocamldoccode}
+\index{main@\verb`main`}
+\begin{ocamldocdescription}
+USAGE: ./compile $<$inputfile$>$ $<$outputfile$>$ or ./interpret $<$inputfile$>$.
+			(1) ./compile will produce a file that the user should compile and
+					then run to perform derivations and print the trees.
+			(2) ./interpret will perform all the derivations and directly print
+					derived trees in bracketed notation to standard output.
+		See README.txt in the /doc folder for more details.
+
+
+\end{ocamldocdescription}
+
+
+\section{Module {\tt{MyParser}}}
+\label{module:MyParser}\index{MyParser@\verb`MyParser`}
+
+
+\ocamldocvspace{0.5cm}
+
+
+
+\label{type:MyParser.token}\begin{ocamldoccode}
+type token =
+  | VAR
+  | SUB
+  | SET
+  | SEM
+  | RPAREN
+  | RBRACK
+  | QUOTE
+  | PLUS
+  | PER
+  | NULL
+  | LPAREN
+  | LBRACK
+  | ID of string
+  | FOREST
+  | FOOT
+  | EQ
+  | EOF
+  | DERIV
+  | COL
+  | AT
+  | AND
+\end{ocamldoccode}
+\index{token@\verb`token`}
+
+
+
+
+\label{exception:MyParser.Error}\begin{ocamldoccode}
+exception Error
+\end{ocamldoccode}
+\index{Error@\verb`Error`}
+
+
+
+
+\label{val:MyParser.parsed}\begin{ocamldoccode}
+val parsed : (Lexing.lexbuf -> token) -> Lexing.lexbuf -> Parsed.parsed
+\end{ocamldoccode}
+\index{parsed@\verb`parsed`}
+
+
+\end{document}

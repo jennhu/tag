@@ -1,0 +1,151 @@
+FOREST trees_from_paper =
+
+{ Reflexive sets }
+	SET himself:
+		[s*@1] ; [s*@2] ;
+		[np@2 'himself'] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ;
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET himself_cat:
+		[s*@1] ; [s [np 'himself'] [s*@2]] ;
+		[np@2 ''] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ; 
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET himself_ditransobj:
+		[s*@1] ; [s*@2] ;
+		[np@2 'himself'] ; [np!@1] ;
+		[et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t@1 [et*] [e!@1]]]]] ;
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET themselves:
+		[s*@1] ; [s*@2] ;
+		[np@2 'themselves/eachother'] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ; 
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET themselves_cat:
+		[s*@1] ; [s [np@2 'themselves/eachother'] [s*@2]] ;
+		[np ''] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ; 
+		[t*@2] ; [e@2 $a] ; [e $b].
+
+{ Noun phrases }
+	SET johnmary:
+		[s*] ; [np@1 'john_and_mary'] ;
+		[t*] ; [e@1 'j_and_m'].
+	SET johnmary_top:
+		[s [np@1 'john_and_mary'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'j_and_m'].
+	SET mary:
+		[s*] ; [np@1 'mary'] ;
+		[t*] ; [e@1 'm'].
+	SET mary_top:
+		[s [np@1 'mary'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'm'].
+	SET john:
+		[s*] ; [np@1 'john'] ;
+		[t*] ; [e@1 'j'].
+	SET john_top:
+		[s [np@1 'john'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'j'].
+	SET bill:
+		[s*] ; [np@1 'bill'] ;
+		[t*] ; [e@1 'b'].
+	SET bill_top:
+		[s [np@1 'bill'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'b'].
+	SET picsof:
+		[s*] ; [np [d 'the'] [np@1 [n 'pics'] [pp [p 'of'] [np*]]]] ;
+		[t*] ; [e@1 [unique $z] [t [et [eet 'picsof'] [e*]] [e $z]]].
+	SET picsof_top:
+		[s [np [d 'the'] [np@1 [n 'pics'] [pp [p 'of'] [np*]]]] [s*]] ; [np ''] ;
+		[t*] ; [e@1 [unique $z [t [et [eet 'picsof'] [e*]]] [e $z]]].
+	SET everyone:
+		[s*] ; [np 'everyone'] ;
+		[t [forall $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET everyone_top:
+		[s [np 'everyone'] [s*]] ; [np ''] ;
+		[t [forall $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET someone:
+		[s*] ; [np 'someone'] ;
+		[t [exists $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET someone_top:
+		[s [np 'someone'] [s*]] ; [np ''] ;
+		[t [exists $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET noone:
+		[s*] ; [np 'noone'] ;
+		[t [notexists $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET noone_top:
+		[s [np 'noone'] [s*]] ; [np ''] ;
+		[t [notexists $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+
+{ Verb phrases } 
+	SET saw:
+		[s@1@2 [np!@1] [vp@3 [v 'saw'] [np!@2]]] ;
+		[t@1@2@3 [et [eet 'saw'] [e!@2]] [e!@1]].
+	SET likes:
+		[s@1@2 [np!@1] [vp@3 [v 'likes'] [np!@2]]] ;
+		[t@1@2@3 [et [eet 'like'] [e!@2]] [e!@1]].
+	SET showed_subj:
+		[s@1@2@3 [np!@1] [vp [v 'showed'] [np!@2] [np!@3]]] ;
+		[t@1@2@3 [et [eet [eeet 'showed'] [e!@3]] [e!@2]] [e!@1]].
+	SET showed_obj:
+		[s@1@2@3 [np!@1] [vp [v 'showed'] [np!@2] [np!@3]]] ;
+		[t@1@3 [et@2 [eet [eeet 'showed'] [e!@3]] [e!@2]] [e!@1]].
+
+{ Derivation trees exactly from Cristina's paper }
+DERIV johnsawmary:
+	saw
+		@1:[john @1:[]]
+		@2:[mary @1:[]]
+		@3:[].
+DERIV noonesawmary:
+	saw
+		@1:[noone]
+		@2:[mary @1:[]]
+		@3:[].
+DERIV johnsawmary_top:
+	saw
+		@1:[john @1:[]]
+		@2:[mary_top @1:[]]
+		@3:[].
+DERIV refl_john:
+	saw
+		@1+@2:[himself 
+			@1:[john @1:[]]
+			@2:[]]
+		@3:[].
+DERIV reflrecp_jm:
+	saw
+		@1+@2:[themselves 
+			@1:[johnmary @1:[]]
+			@2:[]]
+		@3:[].
+DERIV reflrecp_everyone:
+	saw
+		@1+@2:[themselves 
+			@1:[everyone]
+			@2:[]]
+		@3:[].
+DERIV refl_cat_john:
+	saw
+		@1+@2:[himself_cat 
+			@1:[john @1:[]]
+			@2:[]]
+		@3:[].
+DERIV refl_ditrans_subj1:
+	showed_subj
+		@1+@3:[himself 
+			@1:[john @1:[]]
+			@2:[]]
+		@2:[bill @1:[]].
+DERIV refl_ditrans_subj2:
+	showed_subj
+		@1+@2:[himself 
+			@1:[john @1:[]]
+			@2:[]]
+		@3:[bill @1:[]].
+DERIV refl_ditrans_obj:
+	showed_obj
+		@2+@3:[himself_ditransobj 
+			@1:[bill @1:[]]
+			@2:[]]
+		@1:[john @1:[]].

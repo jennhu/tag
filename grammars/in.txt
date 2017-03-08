@@ -1,0 +1,135 @@
+FOREST example =
+
+{ REFLEXIVES }
+	SET himself:
+		[s*@1] ; [s*@2] ;
+		[np@2 'himself'] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ;
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET himself_cat:
+		[s*@1] ; [s [np@2 'himself'] [s*@2]] ;
+		[np ''] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ; 
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET themselves:
+		[s*@1] ; [s*@2] ;
+		[np@2 'themselves/eachother'] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ; 
+		[t*@2] ; [e@2 $a] ; [e $b].
+	SET themselves_cat:
+		[s*@1] ; [s [np@2 'themselves/eachother'] [s*@2]] ;
+		[np ''] ; [np!@1] ;
+		[t@1 [et [eetet 'refl/recp'] [eet [lambda $a] [et [lambda $b] [t*]]]] [e!@1]] ; 
+		[t*@2] ; [e@2 $a] ; [e $b].
+
+{ NPs }
+	SET johnmary:
+		[s*] ; [np@1 'john_and_mary'] ;
+		[t*] ; [e@1 'j_and_m'].
+	SET johnmary_top:
+		[s [np@1 'john_and_mary'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'j_and_m'].
+	SET mary:
+		[s*] ; [np@1 'mary'] ;
+		[t*] ; [e@1 'm'].
+	SET mary_top:
+		[s [np@1 'mary'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'm'].
+	SET john:
+		[s*] ; [np@1 'john'] ;
+		[t*] ; [e@1 'j'].
+	SET john_top:
+		[s [np@1 'john'] [s*]] ; [np ''] ;
+		[t*] ; [e@1 'j'].
+	SET picsof:
+		[s*] ; [np [d 'the'] [np@1 [n 'pics'] [pp [p 'of'] [np*]]]] ;
+		[t*] ; [e@1 [unique $z [t [et [eet 'picsof'] [e*]]] [e $z]]].
+	SET picsof_top:
+		[s [np [d 'the'] [np@1 [n 'pics'] [pp [p 'of'] [np*]]]] [s*]] ; [np ''] ;
+		[t*] ; [e@1 [unique $z [t [et [eet 'picsof'] [e*]]] [e $z]]].
+	SET everyone:
+		[s*] ; [np 'everyone'] ;
+		[t [forall $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET everyone_top:
+		[s [np 'everyone'] [s*]] ; [np ''] ;
+		[t [forall $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET someone:
+		[s*] ; [np 'someone'] ;
+		[t [exists $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+	SET someone_top:
+		[s [np 'someone'] [s*]] ; [np ''] ;
+		[t [exists $x [t [et 'person'] [e $x]] [t*]]] ; [e $x].
+
+{ VERBS } 
+	SET saw:
+		[s@1@2 [np!@1] [vp@3 [v 'saw'] [np!@2]]] ;
+		[t@1@2@3 [et [eet 'saw'] [e!@2]] [e!@1]].
+	SET likes:
+		[s@1@2 [np!@1] [vp@3 [v 'likes'] [np!@2]]] ;
+		[t@1@2@3 [et [eet 'like'] [e!@2]] [e!@1]].
+
+{ MODIFIERS }
+	SET app:
+		[vp [adv 'apparently'] [vp*]] ;
+		[t [tt 'apparently'] [t*]].
+	SET really:
+		[vp [adv 'really'] [vp*]] ;
+		[t [tt 'really'] [t*]].
+	SET quite:
+		[vp [adv 'quite'] [vp*]] ;
+		[t [tt 'quite'] [t*]].
+	SET pretty:
+		[np [adj 'pretty'] [np*]] ;
+		[e [ee 'pretty'] [e*]].
+	SET smart:
+		[e [ee 'smart'] [e*]] ;
+		[np [adj 'smart'] [np*]].
+
+{ DERIVATION TREES }
+DERIV johnlikesmary:
+	likes
+		@1:[john {(1;2;3;4)} @1:[]]
+		@2:[mary @1:[]]
+		@3:[really]+[quite]+[app].
+DERIV picsofpicsof:
+	likes 
+		@1:[john @1:[]]
+		@2:[picsof @1:[]]+[picsof @1:[]]+[mary @1:[pretty]]
+		@3:[].
+DERIV everyone_top:
+	likes
+		@1:[someone]
+		@2:[everyone_top]
+		@3:[].
+DERIV everyevery:
+	likes
+		@1:[everyone]
+		@2:[everyone]
+		@3:[].
+DERIV forall_exists:
+	likes 
+		@2:[everyone]
+		@1:[someone]
+		@3:[].
+DERIV exists_forall:
+	likes 
+		@1:[someone]
+		@2:[everyone]
+		@3:[].
+DERIV refl:
+	saw
+		@1+@2:[himself
+				@1:[john @1:[]]
+				@2:[]]
+		@3:[].
+DERIV reflpics:
+	saw
+		@1+@2:[themselves 
+				@1:[johnmary @1:[]]
+				@2:[picsof @1:[]]]
+		@3:[].
+DERIV picsevery:
+	saw
+		@1:[john @1:[]]
+		@2:[picsof @1:[]] + [everyone]
+		@3:[].

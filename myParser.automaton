@@ -1,0 +1,704 @@
+State 0:
+parsed' -> . parsed [ # ]
+-- On FOREST shift to state 1
+-- On parsed shift to state 66
+-- On forest shift to state 67
+
+State 1:
+forest -> FOREST . ID EQ list(set) [ EOF DERIV ]
+-- On ID shift to state 2
+
+State 2:
+forest -> FOREST ID . EQ list(set) [ EOF DERIV ]
+-- On EQ shift to state 3
+
+State 3:
+forest -> FOREST ID EQ . list(set) [ EOF DERIV ]
+-- On SET shift to state 4
+-- On set shift to state 63
+-- On list(set) shift to state 65
+-- On EOF reduce production list(set) -> 
+-- On DERIV reduce production list(set) -> 
+
+State 4:
+set -> SET . ID COL loption(separated_nonempty_list(SEM,tree)) PER [ SET EOF DERIV ]
+-- On ID shift to state 5
+
+State 5:
+set -> SET ID . COL loption(separated_nonempty_list(SEM,tree)) PER [ SET EOF DERIV ]
+-- On COL shift to state 6
+
+State 6:
+set -> SET ID COL . loption(separated_nonempty_list(SEM,tree)) PER [ SET EOF DERIV ]
+-- On QUOTE shift to state 7
+-- On NULL shift to state 11
+-- On LBRACK shift to state 12
+-- On tree shift to state 56
+-- On t shift to state 58
+-- On separated_nonempty_list(SEM,tree) shift to state 60
+-- On loption(separated_nonempty_list(SEM,tree)) shift to state 61
+-- On PER reduce production loption(separated_nonempty_list(SEM,tree)) -> 
+
+State 7:
+t -> QUOTE . option(ID) QUOTE [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On ID shift to state 8
+-- On option(ID) shift to state 9
+-- On QUOTE reduce production option(ID) -> 
+
+State 8:
+option(ID) -> ID . [ QUOTE ]
+-- On QUOTE reduce production option(ID) -> ID 
+
+State 9:
+t -> QUOTE option(ID) . QUOTE [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On QUOTE shift to state 10
+
+State 10:
+t -> QUOTE option(ID) QUOTE . [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On SEM reduce production t -> QUOTE option(ID) QUOTE 
+-- On RBRACK reduce production t -> QUOTE option(ID) QUOTE 
+-- On QUOTE reduce production t -> QUOTE option(ID) QUOTE 
+-- On PER reduce production t -> QUOTE option(ID) QUOTE 
+-- On NULL reduce production t -> QUOTE option(ID) QUOTE 
+-- On LBRACK reduce production t -> QUOTE option(ID) QUOTE 
+
+State 11:
+t -> NULL . [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On SEM reduce production t -> NULL 
+-- On RBRACK reduce production t -> NULL 
+-- On QUOTE reduce production t -> NULL 
+-- On PER reduce production t -> NULL 
+-- On NULL reduce production t -> NULL 
+-- On LBRACK reduce production t -> NULL 
+
+State 12:
+t -> LBRACK . node RBRACK [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On ID shift to state 13
+-- On node shift to state 54
+
+State 13:
+node -> ID . list(link) tfs list(t) [ RBRACK ]
+node -> ID . SUB list(link) tfs [ RBRACK ]
+node -> ID . FOOT list(link) tfs [ RBRACK ]
+node -> ID . list(link) tfs VAR ID option(pair(t,t)) [ RBRACK ]
+-- On SUB shift to state 14
+-- On FOOT shift to state 41
+-- On AT shift to state 15
+-- On list(link) shift to state 44
+-- On link shift to state 39
+-- On VAR reduce production list(link) -> 
+-- On RBRACK reduce production list(link) -> 
+-- On QUOTE reduce production list(link) -> 
+-- On PER reduce production list(link) -> 
+-- On NULL reduce production list(link) -> 
+-- On LPAREN reduce production list(link) -> 
+-- On LBRACK reduce production list(link) -> 
+
+State 14:
+node -> ID SUB . list(link) tfs [ RBRACK ]
+-- On AT shift to state 15
+-- On list(link) shift to state 18
+-- On link shift to state 39
+-- On RBRACK reduce production list(link) -> 
+-- On PER reduce production list(link) -> 
+-- On LPAREN reduce production list(link) -> 
+
+State 15:
+link -> AT . int [ VAR RBRACK QUOTE PLUS PER NULL LPAREN LBRACK COL AT ]
+-- On ID shift to state 16
+-- On int shift to state 17
+
+State 16:
+int -> ID . [ VAR SEM RPAREN RBRACK QUOTE PLUS PER NULL LPAREN LBRACK COL AT ]
+-- On VAR reduce production int -> ID 
+-- On SEM reduce production int -> ID 
+-- On RPAREN reduce production int -> ID 
+-- On RBRACK reduce production int -> ID 
+-- On QUOTE reduce production int -> ID 
+-- On PLUS reduce production int -> ID 
+-- On PER reduce production int -> ID 
+-- On NULL reduce production int -> ID 
+-- On LPAREN reduce production int -> ID 
+-- On LBRACK reduce production int -> ID 
+-- On COL reduce production int -> ID 
+-- On AT reduce production int -> ID 
+
+State 17:
+link -> AT int . [ VAR RBRACK QUOTE PLUS PER NULL LPAREN LBRACK COL AT ]
+-- On VAR reduce production link -> AT int 
+-- On RBRACK reduce production link -> AT int 
+-- On QUOTE reduce production link -> AT int 
+-- On PLUS reduce production link -> AT int 
+-- On PER reduce production link -> AT int 
+-- On NULL reduce production link -> AT int 
+-- On LPAREN reduce production link -> AT int 
+-- On LBRACK reduce production link -> AT int 
+-- On COL reduce production link -> AT int 
+-- On AT reduce production link -> AT int 
+
+State 18:
+node -> ID SUB list(link) . tfs [ RBRACK ]
+-- On LPAREN shift to state 19
+-- On top shift to state 31
+-- On tfs shift to state 32
+-- On option(top) shift to state 33
+-- On feat shift to state 38
+-- On RBRACK reduce production option(top) -> 
+-- On PER reduce production option(top) -> 
+
+State 19:
+feat -> LPAREN . loption(separated_nonempty_list(SEM,fv)) RPAREN [ VAR RBRACK QUOTE PER NULL LBRACK ]
+-- On ID shift to state 20
+-- On separated_nonempty_list(SEM,fv) shift to state 25
+-- On loption(separated_nonempty_list(SEM,fv)) shift to state 26
+-- On fv shift to state 28
+-- On RPAREN reduce production loption(separated_nonempty_list(SEM,fv)) -> 
+
+State 20:
+fv -> ID . COL ID [ SEM RPAREN ]
+fv -> ID . COL AND ID [ SEM RPAREN ]
+-- On COL shift to state 21
+
+State 21:
+fv -> ID COL . ID [ SEM RPAREN ]
+fv -> ID COL . AND ID [ SEM RPAREN ]
+-- On ID shift to state 22
+-- On AND shift to state 23
+
+State 22:
+fv -> ID COL ID . [ SEM RPAREN ]
+-- On SEM reduce production fv -> ID COL ID 
+-- On RPAREN reduce production fv -> ID COL ID 
+
+State 23:
+fv -> ID COL AND . ID [ SEM RPAREN ]
+-- On ID shift to state 24
+
+State 24:
+fv -> ID COL AND ID . [ SEM RPAREN ]
+-- On SEM reduce production fv -> ID COL AND ID 
+-- On RPAREN reduce production fv -> ID COL AND ID 
+
+State 25:
+loption(separated_nonempty_list(SEM,fv)) -> separated_nonempty_list(SEM,fv) . [ RPAREN ]
+-- On RPAREN reduce production loption(separated_nonempty_list(SEM,fv)) -> separated_nonempty_list(SEM,fv) 
+
+State 26:
+feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) . RPAREN [ VAR RBRACK QUOTE PER NULL LBRACK ]
+-- On RPAREN shift to state 27
+
+State 27:
+feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN . [ VAR RBRACK QUOTE PER NULL LBRACK ]
+-- On VAR reduce production feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN 
+-- On RBRACK reduce production feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN 
+-- On QUOTE reduce production feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN 
+-- On PER reduce production feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN 
+-- On NULL reduce production feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN 
+-- On LBRACK reduce production feat -> LPAREN loption(separated_nonempty_list(SEM,fv)) RPAREN 
+
+State 28:
+separated_nonempty_list(SEM,fv) -> fv . [ RPAREN ]
+separated_nonempty_list(SEM,fv) -> fv . SEM separated_nonempty_list(SEM,fv) [ RPAREN ]
+-- On SEM shift to state 29
+-- On RPAREN reduce production separated_nonempty_list(SEM,fv) -> fv 
+
+State 29:
+separated_nonempty_list(SEM,fv) -> fv SEM . separated_nonempty_list(SEM,fv) [ RPAREN ]
+-- On ID shift to state 20
+-- On separated_nonempty_list(SEM,fv) shift to state 30
+-- On fv shift to state 28
+
+State 30:
+separated_nonempty_list(SEM,fv) -> fv SEM separated_nonempty_list(SEM,fv) . [ RPAREN ]
+-- On RPAREN reduce production separated_nonempty_list(SEM,fv) -> fv SEM separated_nonempty_list(SEM,fv) 
+
+State 31:
+option(top) -> top . [ VAR RBRACK QUOTE PER NULL LBRACK ]
+-- On VAR reduce production option(top) -> top 
+-- On RBRACK reduce production option(top) -> top 
+-- On QUOTE reduce production option(top) -> top 
+-- On PER reduce production option(top) -> top 
+-- On NULL reduce production option(top) -> top 
+-- On LBRACK reduce production option(top) -> top 
+
+State 32:
+node -> ID SUB list(link) tfs . [ RBRACK ]
+-- On RBRACK reduce production node -> ID SUB list(link) tfs 
+
+State 33:
+tfs -> option(top) . option(bot) [ VAR RBRACK QUOTE NULL LBRACK ]
+-- On PER shift to state 34
+-- On option(bot) shift to state 36
+-- On bot shift to state 37
+-- On VAR reduce production option(bot) -> 
+-- On RBRACK reduce production option(bot) -> 
+-- On QUOTE reduce production option(bot) -> 
+-- On NULL reduce production option(bot) -> 
+-- On LBRACK reduce production option(bot) -> 
+
+State 34:
+bot -> PER . feat [ VAR RBRACK QUOTE NULL LBRACK ]
+-- On LPAREN shift to state 19
+-- On feat shift to state 35
+
+State 35:
+bot -> PER feat . [ VAR RBRACK QUOTE NULL LBRACK ]
+-- On VAR reduce production bot -> PER feat 
+-- On RBRACK reduce production bot -> PER feat 
+-- On QUOTE reduce production bot -> PER feat 
+-- On NULL reduce production bot -> PER feat 
+-- On LBRACK reduce production bot -> PER feat 
+
+State 36:
+tfs -> option(top) option(bot) . [ VAR RBRACK QUOTE NULL LBRACK ]
+-- On VAR reduce production tfs -> option(top) option(bot) 
+-- On RBRACK reduce production tfs -> option(top) option(bot) 
+-- On QUOTE reduce production tfs -> option(top) option(bot) 
+-- On NULL reduce production tfs -> option(top) option(bot) 
+-- On LBRACK reduce production tfs -> option(top) option(bot) 
+
+State 37:
+option(bot) -> bot . [ VAR RBRACK QUOTE NULL LBRACK ]
+-- On VAR reduce production option(bot) -> bot 
+-- On RBRACK reduce production option(bot) -> bot 
+-- On QUOTE reduce production option(bot) -> bot 
+-- On NULL reduce production option(bot) -> bot 
+-- On LBRACK reduce production option(bot) -> bot 
+
+State 38:
+top -> feat . [ VAR RBRACK QUOTE PER NULL LBRACK ]
+-- On VAR reduce production top -> feat 
+-- On RBRACK reduce production top -> feat 
+-- On QUOTE reduce production top -> feat 
+-- On PER reduce production top -> feat 
+-- On NULL reduce production top -> feat 
+-- On LBRACK reduce production top -> feat 
+
+State 39:
+list(link) -> link . list(link) [ VAR RBRACK QUOTE PER NULL LPAREN LBRACK ]
+-- On AT shift to state 15
+-- On list(link) shift to state 40
+-- On link shift to state 39
+-- On VAR reduce production list(link) -> 
+-- On RBRACK reduce production list(link) -> 
+-- On QUOTE reduce production list(link) -> 
+-- On PER reduce production list(link) -> 
+-- On NULL reduce production list(link) -> 
+-- On LPAREN reduce production list(link) -> 
+-- On LBRACK reduce production list(link) -> 
+
+State 40:
+list(link) -> link list(link) . [ VAR RBRACK QUOTE PER NULL LPAREN LBRACK ]
+-- On VAR reduce production list(link) -> link list(link) 
+-- On RBRACK reduce production list(link) -> link list(link) 
+-- On QUOTE reduce production list(link) -> link list(link) 
+-- On PER reduce production list(link) -> link list(link) 
+-- On NULL reduce production list(link) -> link list(link) 
+-- On LPAREN reduce production list(link) -> link list(link) 
+-- On LBRACK reduce production list(link) -> link list(link) 
+
+State 41:
+node -> ID FOOT . list(link) tfs [ RBRACK ]
+-- On AT shift to state 15
+-- On list(link) shift to state 42
+-- On link shift to state 39
+-- On RBRACK reduce production list(link) -> 
+-- On PER reduce production list(link) -> 
+-- On LPAREN reduce production list(link) -> 
+
+State 42:
+node -> ID FOOT list(link) . tfs [ RBRACK ]
+-- On LPAREN shift to state 19
+-- On top shift to state 31
+-- On tfs shift to state 43
+-- On option(top) shift to state 33
+-- On feat shift to state 38
+-- On RBRACK reduce production option(top) -> 
+-- On PER reduce production option(top) -> 
+
+State 43:
+node -> ID FOOT list(link) tfs . [ RBRACK ]
+-- On RBRACK reduce production node -> ID FOOT list(link) tfs 
+
+State 44:
+node -> ID list(link) . tfs list(t) [ RBRACK ]
+node -> ID list(link) . tfs VAR ID option(pair(t,t)) [ RBRACK ]
+-- On LPAREN shift to state 19
+-- On top shift to state 31
+-- On tfs shift to state 45
+-- On option(top) shift to state 33
+-- On feat shift to state 38
+-- On VAR reduce production option(top) -> 
+-- On RBRACK reduce production option(top) -> 
+-- On QUOTE reduce production option(top) -> 
+-- On PER reduce production option(top) -> 
+-- On NULL reduce production option(top) -> 
+-- On LBRACK reduce production option(top) -> 
+
+State 45:
+node -> ID list(link) tfs . list(t) [ RBRACK ]
+node -> ID list(link) tfs . VAR ID option(pair(t,t)) [ RBRACK ]
+-- On VAR shift to state 46
+-- On QUOTE shift to state 7
+-- On NULL shift to state 11
+-- On LBRACK shift to state 12
+-- On t shift to state 51
+-- On list(t) shift to state 53
+-- On RBRACK reduce production list(t) -> 
+
+State 46:
+node -> ID list(link) tfs VAR . ID option(pair(t,t)) [ RBRACK ]
+-- On ID shift to state 47
+
+State 47:
+node -> ID list(link) tfs VAR ID . option(pair(t,t)) [ RBRACK ]
+-- On QUOTE shift to state 7
+-- On NULL shift to state 11
+-- On LBRACK shift to state 12
+-- On t shift to state 48
+-- On option(pair(t,t)) shift to state 50
+-- On RBRACK reduce production option(pair(t,t)) -> 
+
+State 48:
+option(pair(t,t)) -> t . t [ RBRACK ]
+-- On QUOTE shift to state 7
+-- On NULL shift to state 11
+-- On LBRACK shift to state 12
+-- On t shift to state 49
+
+State 49:
+option(pair(t,t)) -> t t . [ RBRACK ]
+-- On RBRACK reduce production option(pair(t,t)) -> t t 
+
+State 50:
+node -> ID list(link) tfs VAR ID option(pair(t,t)) . [ RBRACK ]
+-- On RBRACK reduce production node -> ID list(link) tfs VAR ID option(pair(t,t)) 
+
+State 51:
+list(t) -> t . list(t) [ RBRACK ]
+-- On QUOTE shift to state 7
+-- On NULL shift to state 11
+-- On LBRACK shift to state 12
+-- On t shift to state 51
+-- On list(t) shift to state 52
+-- On RBRACK reduce production list(t) -> 
+
+State 52:
+list(t) -> t list(t) . [ RBRACK ]
+-- On RBRACK reduce production list(t) -> t list(t) 
+
+State 53:
+node -> ID list(link) tfs list(t) . [ RBRACK ]
+-- On RBRACK reduce production node -> ID list(link) tfs list(t) 
+
+State 54:
+t -> LBRACK node . RBRACK [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On RBRACK shift to state 55
+
+State 55:
+t -> LBRACK node RBRACK . [ SEM RBRACK QUOTE PER NULL LBRACK ]
+-- On SEM reduce production t -> LBRACK node RBRACK 
+-- On RBRACK reduce production t -> LBRACK node RBRACK 
+-- On QUOTE reduce production t -> LBRACK node RBRACK 
+-- On PER reduce production t -> LBRACK node RBRACK 
+-- On NULL reduce production t -> LBRACK node RBRACK 
+-- On LBRACK reduce production t -> LBRACK node RBRACK 
+
+State 56:
+separated_nonempty_list(SEM,tree) -> tree . [ PER ]
+separated_nonempty_list(SEM,tree) -> tree . SEM separated_nonempty_list(SEM,tree) [ PER ]
+-- On SEM shift to state 57
+-- On PER reduce production separated_nonempty_list(SEM,tree) -> tree 
+
+State 57:
+separated_nonempty_list(SEM,tree) -> tree SEM . separated_nonempty_list(SEM,tree) [ PER ]
+-- On QUOTE shift to state 7
+-- On NULL shift to state 11
+-- On LBRACK shift to state 12
+-- On tree shift to state 56
+-- On t shift to state 58
+-- On separated_nonempty_list(SEM,tree) shift to state 59
+
+State 58:
+tree -> t . [ SEM PER ]
+-- On SEM reduce production tree -> t 
+-- On PER reduce production tree -> t 
+
+State 59:
+separated_nonempty_list(SEM,tree) -> tree SEM separated_nonempty_list(SEM,tree) . [ PER ]
+-- On PER reduce production separated_nonempty_list(SEM,tree) -> tree SEM separated_nonempty_list(SEM,tree) 
+
+State 60:
+loption(separated_nonempty_list(SEM,tree)) -> separated_nonempty_list(SEM,tree) . [ PER ]
+-- On PER reduce production loption(separated_nonempty_list(SEM,tree)) -> separated_nonempty_list(SEM,tree) 
+
+State 61:
+set -> SET ID COL loption(separated_nonempty_list(SEM,tree)) . PER [ SET EOF DERIV ]
+-- On PER shift to state 62
+
+State 62:
+set -> SET ID COL loption(separated_nonempty_list(SEM,tree)) PER . [ SET EOF DERIV ]
+-- On SET reduce production set -> SET ID COL loption(separated_nonempty_list(SEM,tree)) PER 
+-- On EOF reduce production set -> SET ID COL loption(separated_nonempty_list(SEM,tree)) PER 
+-- On DERIV reduce production set -> SET ID COL loption(separated_nonempty_list(SEM,tree)) PER 
+
+State 63:
+list(set) -> set . list(set) [ EOF DERIV ]
+-- On SET shift to state 4
+-- On set shift to state 63
+-- On list(set) shift to state 64
+-- On EOF reduce production list(set) -> 
+-- On DERIV reduce production list(set) -> 
+
+State 64:
+list(set) -> set list(set) . [ EOF DERIV ]
+-- On EOF reduce production list(set) -> set list(set) 
+-- On DERIV reduce production list(set) -> set list(set) 
+
+State 65:
+forest -> FOREST ID EQ list(set) . [ EOF DERIV ]
+-- On EOF reduce production forest -> FOREST ID EQ list(set) 
+-- On DERIV reduce production forest -> FOREST ID EQ list(set) 
+
+State 66:
+parsed' -> parsed . [ # ]
+-- On # accept parsed
+
+State 67:
+parsed -> forest . list(deriv) EOF [ # ]
+-- On DERIV shift to state 68
+-- On list(deriv) shift to state 102
+-- On deriv shift to state 104
+-- On EOF reduce production list(deriv) -> 
+
+State 68:
+deriv -> DERIV . ID COL der PER [ EOF DERIV ]
+-- On ID shift to state 69
+
+State 69:
+deriv -> DERIV ID . COL der PER [ EOF DERIV ]
+-- On COL shift to state 70
+
+State 70:
+deriv -> DERIV ID COL . der PER [ EOF DERIV ]
+-- On ID shift to state 71
+-- On der shift to state 100
+
+State 71:
+der -> ID . option(prio) list(separated_pair(lset,COL,ds)) [ RBRACK PER ]
+-- On LPAREN shift to state 72
+-- On prio shift to state 79
+-- On option(prio) shift to state 80
+-- On RBRACK reduce production option(prio) -> 
+-- On PER reduce production option(prio) -> 
+-- On COL reduce production option(prio) -> 
+-- On AT reduce production option(prio) -> 
+
+State 72:
+prio -> LPAREN . loption(separated_nonempty_list(SEM,int)) RPAREN [ RBRACK PER COL AT ]
+-- On ID shift to state 16
+-- On separated_nonempty_list(SEM,int) shift to state 73
+-- On loption(separated_nonempty_list(SEM,int)) shift to state 74
+-- On int shift to state 76
+-- On RPAREN reduce production loption(separated_nonempty_list(SEM,int)) -> 
+
+State 73:
+loption(separated_nonempty_list(SEM,int)) -> separated_nonempty_list(SEM,int) . [ RPAREN ]
+-- On RPAREN reduce production loption(separated_nonempty_list(SEM,int)) -> separated_nonempty_list(SEM,int) 
+
+State 74:
+prio -> LPAREN loption(separated_nonempty_list(SEM,int)) . RPAREN [ RBRACK PER COL AT ]
+-- On RPAREN shift to state 75
+
+State 75:
+prio -> LPAREN loption(separated_nonempty_list(SEM,int)) RPAREN . [ RBRACK PER COL AT ]
+-- On RBRACK reduce production prio -> LPAREN loption(separated_nonempty_list(SEM,int)) RPAREN 
+-- On PER reduce production prio -> LPAREN loption(separated_nonempty_list(SEM,int)) RPAREN 
+-- On COL reduce production prio -> LPAREN loption(separated_nonempty_list(SEM,int)) RPAREN 
+-- On AT reduce production prio -> LPAREN loption(separated_nonempty_list(SEM,int)) RPAREN 
+
+State 76:
+separated_nonempty_list(SEM,int) -> int . [ RPAREN ]
+separated_nonempty_list(SEM,int) -> int . SEM separated_nonempty_list(SEM,int) [ RPAREN ]
+-- On SEM shift to state 77
+-- On RPAREN reduce production separated_nonempty_list(SEM,int) -> int 
+
+State 77:
+separated_nonempty_list(SEM,int) -> int SEM . separated_nonempty_list(SEM,int) [ RPAREN ]
+-- On ID shift to state 16
+-- On separated_nonempty_list(SEM,int) shift to state 78
+-- On int shift to state 76
+
+State 78:
+separated_nonempty_list(SEM,int) -> int SEM separated_nonempty_list(SEM,int) . [ RPAREN ]
+-- On RPAREN reduce production separated_nonempty_list(SEM,int) -> int SEM separated_nonempty_list(SEM,int) 
+
+State 79:
+option(prio) -> prio . [ RBRACK PER COL AT ]
+-- On RBRACK reduce production option(prio) -> prio 
+-- On PER reduce production option(prio) -> prio 
+-- On COL reduce production option(prio) -> prio 
+-- On AT reduce production option(prio) -> prio 
+
+State 80:
+der -> ID option(prio) . list(separated_pair(lset,COL,ds)) [ RBRACK PER ]
+-- On AT shift to state 15
+-- On separated_nonempty_list(PLUS,link) shift to state 81
+-- On lset shift to state 82
+-- On loption(separated_nonempty_list(PLUS,link)) shift to state 94
+-- On list(separated_pair(lset,COL,ds)) shift to state 99
+-- On link shift to state 96
+-- On RBRACK reduce production list(separated_pair(lset,COL,ds)) -> 
+-- On PER reduce production list(separated_pair(lset,COL,ds)) -> 
+-- On COL reduce production loption(separated_nonempty_list(PLUS,link)) -> 
+
+State 81:
+loption(separated_nonempty_list(PLUS,link)) -> separated_nonempty_list(PLUS,link) . [ COL ]
+-- On COL reduce production loption(separated_nonempty_list(PLUS,link)) -> separated_nonempty_list(PLUS,link) 
+
+State 82:
+list(separated_pair(lset,COL,ds)) -> lset . COL ds list(separated_pair(lset,COL,ds)) [ RBRACK PER ]
+-- On COL shift to state 83
+
+State 83:
+list(separated_pair(lset,COL,ds)) -> lset COL . ds list(separated_pair(lset,COL,ds)) [ RBRACK PER ]
+-- On LBRACK shift to state 84
+-- On separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) shift to state 91
+-- On loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) shift to state 92
+-- On ds shift to state 93
+-- On RBRACK reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> 
+-- On PER reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> 
+-- On COL reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> 
+-- On AT reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> 
+
+State 84:
+ds -> LBRACK . RBRACK [ RBRACK PER COL AT ]
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK . der RBRACK [ RBRACK PER COL AT ]
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK . der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) [ RBRACK PER COL AT ]
+-- On RBRACK shift to state 85
+-- On ID shift to state 71
+-- On der shift to state 86
+
+State 85:
+ds -> LBRACK RBRACK . [ RBRACK PER COL AT ]
+-- On RBRACK reduce production ds -> LBRACK RBRACK 
+-- On PER reduce production ds -> LBRACK RBRACK 
+-- On COL reduce production ds -> LBRACK RBRACK 
+-- On AT reduce production ds -> LBRACK RBRACK 
+
+State 86:
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der . RBRACK [ RBRACK PER COL AT ]
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der . RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) [ RBRACK PER COL AT ]
+-- On RBRACK shift to state 87
+
+State 87:
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK . [ RBRACK PER COL AT ]
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK . PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) [ RBRACK PER COL AT ]
+-- On PLUS shift to state 88
+-- On RBRACK reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK 
+-- On PER reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK 
+-- On COL reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK 
+-- On AT reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK 
+
+State 88:
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK PLUS . separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) [ RBRACK PER COL AT ]
+-- On LBRACK shift to state 89
+-- On separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) shift to state 90
+
+State 89:
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK . der RBRACK [ RBRACK PER COL AT ]
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK . der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) [ RBRACK PER COL AT ]
+-- On ID shift to state 71
+-- On der shift to state 86
+
+State 90:
+separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) . [ RBRACK PER COL AT ]
+-- On RBRACK reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+-- On PER reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+-- On COL reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+-- On AT reduce production separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) -> LBRACK der RBRACK PLUS separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+
+State 91:
+loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) . [ RBRACK PER COL AT ]
+-- On RBRACK reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+-- On PER reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+-- On COL reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+-- On AT reduce production loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) -> separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK)) 
+
+State 92:
+ds -> loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) . [ RBRACK PER COL AT ]
+-- On RBRACK reduce production ds -> loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) 
+-- On PER reduce production ds -> loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) 
+-- On COL reduce production ds -> loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) 
+-- On AT reduce production ds -> loption(separated_nonempty_list(PLUS,delimited(LBRACK,der,RBRACK))) 
+
+State 93:
+list(separated_pair(lset,COL,ds)) -> lset COL ds . list(separated_pair(lset,COL,ds)) [ RBRACK PER ]
+-- On AT shift to state 15
+-- On separated_nonempty_list(PLUS,link) shift to state 81
+-- On lset shift to state 82
+-- On loption(separated_nonempty_list(PLUS,link)) shift to state 94
+-- On list(separated_pair(lset,COL,ds)) shift to state 95
+-- On link shift to state 96
+-- On RBRACK reduce production list(separated_pair(lset,COL,ds)) -> 
+-- On PER reduce production list(separated_pair(lset,COL,ds)) -> 
+-- On COL reduce production loption(separated_nonempty_list(PLUS,link)) -> 
+
+State 94:
+lset -> loption(separated_nonempty_list(PLUS,link)) . [ COL ]
+-- On COL reduce production lset -> loption(separated_nonempty_list(PLUS,link)) 
+
+State 95:
+list(separated_pair(lset,COL,ds)) -> lset COL ds list(separated_pair(lset,COL,ds)) . [ RBRACK PER ]
+-- On RBRACK reduce production list(separated_pair(lset,COL,ds)) -> lset COL ds list(separated_pair(lset,COL,ds)) 
+-- On PER reduce production list(separated_pair(lset,COL,ds)) -> lset COL ds list(separated_pair(lset,COL,ds)) 
+
+State 96:
+separated_nonempty_list(PLUS,link) -> link . [ COL ]
+separated_nonempty_list(PLUS,link) -> link . PLUS separated_nonempty_list(PLUS,link) [ COL ]
+-- On PLUS shift to state 97
+-- On COL reduce production separated_nonempty_list(PLUS,link) -> link 
+
+State 97:
+separated_nonempty_list(PLUS,link) -> link PLUS . separated_nonempty_list(PLUS,link) [ COL ]
+-- On AT shift to state 15
+-- On separated_nonempty_list(PLUS,link) shift to state 98
+-- On link shift to state 96
+
+State 98:
+separated_nonempty_list(PLUS,link) -> link PLUS separated_nonempty_list(PLUS,link) . [ COL ]
+-- On COL reduce production separated_nonempty_list(PLUS,link) -> link PLUS separated_nonempty_list(PLUS,link) 
+
+State 99:
+der -> ID option(prio) list(separated_pair(lset,COL,ds)) . [ RBRACK PER ]
+-- On RBRACK reduce production der -> ID option(prio) list(separated_pair(lset,COL,ds)) 
+-- On PER reduce production der -> ID option(prio) list(separated_pair(lset,COL,ds)) 
+
+State 100:
+deriv -> DERIV ID COL der . PER [ EOF DERIV ]
+-- On PER shift to state 101
+
+State 101:
+deriv -> DERIV ID COL der PER . [ EOF DERIV ]
+-- On EOF reduce production deriv -> DERIV ID COL der PER 
+-- On DERIV reduce production deriv -> DERIV ID COL der PER 
+
+State 102:
+parsed -> forest list(deriv) . EOF [ # ]
+-- On EOF shift to state 103
+
+State 103:
+parsed -> forest list(deriv) EOF . [ # ]
+-- On # reduce production parsed -> forest list(deriv) EOF 
+
+State 104:
+list(deriv) -> deriv . list(deriv) [ EOF ]
+-- On DERIV shift to state 68
+-- On list(deriv) shift to state 105
+-- On deriv shift to state 104
+-- On EOF reduce production list(deriv) -> 
+
+State 105:
+list(deriv) -> deriv list(deriv) . [ EOF ]
+-- On EOF reduce production list(deriv) -> deriv list(deriv) 
+
