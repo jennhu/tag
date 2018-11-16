@@ -12,7 +12,7 @@ and avoid dealing with nondeterminism. There are two primary sources of
 ambiguity in derivation trees, addressed below:
 
 First, the user can use derivation trees to specify a scope ordering,
-which assigns an index to every input treeset expected to operate at a 
+which assigns an index to every input treeset expected to operate at a
 certain node and then performs the operation(s) there in the specified order.
 
 Second, the user can also state a priority ordering, which assigns a priority
@@ -28,7 +28,7 @@ is used by default.
 
 open List
 open Printf
-open Basics
+open Utils
 open Tree
 open Treeset
 open Forest
@@ -52,7 +52,7 @@ let priority der =
   | Der(_,p,_) -> p
 let lder_lst der =
   match der with
-  | Der(_,_,l) -> l 
+  | Der(_,_,l) -> l
 
 (** Get id and der of a derivation *)
 let deriv_id deriv = fst deriv
@@ -74,7 +74,7 @@ let apply_deriv deriv forest =
 let deriv_tostring deriv =
   let rec derstr der =
     match map lststr (lder_lst der) with
-    | [] -> word der    
+    | [] -> word der
     | _ -> sprintf "%s (makearguments (%s))" (word der) (lstr (map lststr (lder_lst der)))
   and lststr lst =
     match lst with

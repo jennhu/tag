@@ -1,2 +1,38 @@
 ### Starting build.
-# Compilation successful.
+# Target: toy.ml.depends, tags: { extension:ml, file:toy.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules toy.ml > toy.ml.depends
+# Target: argument.ml.depends, tags: { extension:ml, file:argument.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules argument.ml > argument.ml.depends # cached
+# Target: tree.ml.depends, tags: { extension:ml, file:tree.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules tree.ml > tree.ml.depends # cached
+# Target: unify.ml.depends, tags: { extension:ml, file:unify.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules unify.ml > unify.ml.depends # cached
+# Target: unify.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:unify.cmo, file:unify.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o unify.cmo unify.ml # cached
+# Target: utils.ml.depends, tags: { extension:ml, file:utils.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules utils.ml > utils.ml.depends # cached
+# Target: utils.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:utils.cmo, file:utils.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o utils.cmo utils.ml # cached
+# Target: tree.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tree.cmo, file:tree.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o tree.cmo tree.ml # cached
+# Target: treeset.ml.depends, tags: { extension:ml, file:treeset.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules treeset.ml > treeset.ml.depends # cached
+# Target: links.ml.depends, tags: { extension:ml, file:links.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules links.ml > links.ml.depends # cached
+# Target: links.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:links.cmo, file:links.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o links.cmo links.ml # cached
+# Target: treeset.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:treeset.cmo, file:treeset.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o treeset.cmo treeset.ml # cached
+# Target: argument.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:argument.cmo, file:argument.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o argument.cmo argument.ml # cached
+# Target: derive.ml.depends, tags: { extension:ml, file:derive.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules derive.ml > derive.ml.depends # cached
+# Target: derive.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:derive.cmo, file:derive.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o derive.cmo derive.ml # cached
+# Target: toy.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:toy.cmo, file:toy.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o toy.cmo toy.ml
++ /usr/local/bin/ocamlc.opt -c -o toy.cmo toy.ml
+File "john_saw_a_girl", line 0, characters 27-40:
+Error: Unbound value makearguments
+Command exited with code 2.
+# Compilation unsuccessful.

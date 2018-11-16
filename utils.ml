@@ -1,6 +1,6 @@
 (*======================================================================
 
-                              BASICS
+                              UTILS
 
 Basic helper functions for lists, combinations/permutations, and strings
 that are relevant to our implementation of tree-adjoining grammars.
@@ -30,7 +30,7 @@ open List
 (** Given an input list, returns a new list with duplicates removed.
     Source: https://gist.github.com/23Skidoo/1664038. *)
 let rec dedup l =
-	match l with 
+	match l with
 	| [] -> []
 	| hd::tl -> hd::(dedup (filter (fun x -> x != hd) tl))
 
@@ -53,7 +53,7 @@ let combinations k l =
   let rec aux k acc emit = function
     | [] -> acc
     | hd::tl ->
-      if k = 1 then aux k (emit [hd] acc) emit tl 
+      if k = 1 then aux k (emit [hd] acc) emit tl
       else let new_emit x = emit (hd::x) in
         aux k (aux (k-1) acc new_emit tl) emit tl in
           let emit x acc = x::acc in
@@ -66,13 +66,13 @@ let rec without x l =
    | hd::tl -> if hd = x then tl else hd::(without x tl)
 
 (** Generates permutations of a list in lexicographic order.
-    Source: "More OCaml: Algorithms, Methods & Diversions" by John Whitington. *)   
+    Source: "More OCaml: Algorithms, Methods & Diversions" by John Whitington. *)
 let rec permutations l =
   match l with
   | [] -> [[]]
   | _ ->
-    map (fun x -> 
-      map (fun l -> x::l) (permutations (without x l))) l 
+    map (fun x ->
+      map (fun l -> x::l) (permutations (without x l))) l
     |> flatten
 
 (*************************************
@@ -98,7 +98,7 @@ let paren s = if s = "" then "" else "("^s^")"
     Example: lstr ["1"; "2"] = "[1; 2]" *)
 let lstr l  = if l = [] then "[]" else brack (sep "; " l)
 
-(** Given an input string and its "level" of indentation, returns a copy of 
+(** Given an input string and its "level" of indentation, returns a copy of
     the string preceded by the proper number of tabs. Note that we use spaces
     instead of tabs here, but this can be easily changed to suit the user's
     preferences. *)

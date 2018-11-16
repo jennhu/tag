@@ -7,16 +7,16 @@ implementation of MCTAG. From the input file, the parser creates a forest
 and list of derivation trees, where the forest is used as a reference for
 all derivations in the list.
 
-Most importantly, the class contains the methods for interpreting and 
+Most importantly, the class contains the methods for interpreting and
 compiling, which allows us to actually perform derivations.
 
 ======================================================================*)
 
 open Unify
-open Basics
+open Utils
 open List
 open Printf
-open Forest 
+open Forest
 open Derivation
 
 type parsed = forest * derivation list

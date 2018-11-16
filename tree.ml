@@ -13,7 +13,7 @@ and return the category, links, and features.
 open Unify
 open List
 open Printf
-open Basics
+open Utils
 open Format (* for printing *)
 
 exception NoCategory
@@ -97,8 +97,8 @@ let rec unify_tb t =
   match t with
   | Node(_,_,tfs,kids) -> tfs.top#unify tfs.bot; iter unify_tb kids
   | Quant(_,_,l,r)     -> unify_tb l; unify_tb r
-  | Sub(_,_,tfs) 
-  | Foot(_,_,tfs) 
+  | Sub(_,_,tfs)
+  | Foot(_,_,tfs)
   | Var(_,_,tfs,_)     -> tfs.top#unify tfs.bot
   | _                  -> ()
 
@@ -124,7 +124,7 @@ let lookup address t =
   aux t address
 
 (** Makes a function out of an auxiliary tree. Fails with InitFunctionError
-   if there is no foot in t, which is determined by checking ttype. *) 
+   if there is no foot in t, which is determined by checking ttype. *)
 let auxfun t =
   let rec aux t foot =
     match t with
@@ -140,10 +140,10 @@ let auxfun t =
 let haslink (i:linkindex) t =
   let rec aux t =
     match t with
-    | Node(_,ls,_,kids) -> mem i ls || exists aux kids 
+    | Node(_,ls,_,kids) -> mem i ls || exists aux kids
     | Quant(_,_,l,r)    -> aux l    || aux r
-    | Sub(_,ls,_) 
-    | Foot(_,ls,_) 
+    | Sub(_,ls,_)
+    | Foot(_,ls,_)
     | Var(_,ls,_,_)     -> mem i ls
     | Leaf _            -> false in
   aux t
@@ -180,7 +180,7 @@ let fscheck (that:t) t =
 let brackify t =
   let ident = print_string in
   let kwd = print_string in
-  (* TODO: FIX CLOSING BRACKETS, INCLUDE FEATURES AND LINKS *) 
+  (* TODO: FIX CLOSING BRACKETS, INCLUDE FEATURES AND LINKS *)
   let rec print_t = function
     | Leaf x -> if x = "" then print_string "(t)" else kwd "'"; ident x; kwd "'"
     | Var(c,_,_,v) -> kwd "["; ident c; kwd "$"; ident v; kwd "]"
@@ -212,7 +212,7 @@ let brackify t =
           indent level s
       | Sub(c,ls,fs) -> sprintf "[%s!%s%s]" c (l_to_txt ls) (tfs_to_txt fs)
       | Foot(c,ls,fs) -> sprintf "[%s*%s%s]" c (l_to_txt ls) (tfs_to_txt fs)
-      | Quant(q,v,l,r) -> 
+      | Quant(q,v,l,r) ->
         let k = (indent (level+1) (brack_t l (level+1)))^"\n"^
                 (indent (level+1) (brack_t r (level+1))) in
         indent level (sprintf "[%s $%s\n%s]" q v k)
@@ -228,7 +228,7 @@ let brackify t =
     print_string (brack_t t 0) *)
 
 (** Prints the abstract syntax tree of the tree. *)
-let tostring t = 
+let tostring t =
   let rec treestr t =
     match t with
     | Leaf x             -> sprintf "Leaf \"%s\"" x
@@ -240,9 +240,9 @@ let tostring t =
                             sprintf "Node(\"%s\",%s,%s,%s)" c (linksstr ls) (fspecs_str fs) kstr
   and linksstr ls = lstr (map string_of_int ls)
   and fspecs_str fspecs =
-    let aux fs = 
-      try map (fun f -> 
-        let v = dereference (fs#lookup f) in 
+    let aux fs =
+      try map (fun f ->
+        let v = dereference (fs#lookup f) in
           match !v with
           | Var i -> sprintf "(\"%s\",varlabel %i)" f i
           | Val s -> sprintf "(\"%s\",label \"%s\")" f s

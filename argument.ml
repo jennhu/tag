@@ -3,12 +3,12 @@
                               ARGUMENTS
 
 Arguments are used to specify which treesets are expected to operate at
-which links during MCTAG derivations. In particular, to perform one step 
-in a derivation, we need a list of input treesets and a set of links over 
+which links during MCTAG derivations. In particular, to perform one step
+in a derivation, we need a list of input treesets and a set of links over
 which the input sets operate in the target treeset.
 
 We use a type called an arg to represent one of these derivation steps.
-An arg is a tuple specifying a linkset as well as the list of treesets 
+An arg is a tuple specifying a linkset as well as the list of treesets
 expected to operate there. An arguments object contains a list of args that
 specify the details of the entire derivation.
 
@@ -27,7 +27,7 @@ reorder_scope and renamevars are found in the Functions section below.
 
 open List
 open Printf
-open Basics
+open Utils
 open Tree
 open Treeset
 
@@ -50,7 +50,7 @@ type arg = linkset * (treeset list)
     according to the second indices in each of these tuples. *)
 
 let reorder_scope lst scope =
-  fold_left (fun acc x -> 
+  fold_left (fun acc x ->
     let (_,i) = x in (nth lst (i-1))@acc) [] scope ;;
 (*   let rec aux scope =
     match scope with
@@ -61,8 +61,8 @@ let reorder_scope lst scope =
   aux scope ;; *)
 
 (** A helper function for renamevars that renames variables in a treeset
-    with a suffix and subscript. The primary suffix concatenates the 
-    linkindices used in the linkset, and the subscript (after underscore) 
+    with a suffix and subscript. The primary suffix concatenates the
+    linkindices used in the linkset, and the subscript (after underscore)
     is the index of the set in the list it is inputted in. *)
 
 let rename set i lset =
@@ -80,7 +80,7 @@ let rename set i lset =
   map aux (ts set)
 
 (** Renames the variables in a list of treesets according to a specified
-    linkset using the convention in the rename function. The list will 
+    linkset using the convention in the rename function. The list will
     presumably come from an arg tuple. *)
 
 let renamevars sets lset =

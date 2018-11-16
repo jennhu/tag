@@ -4,7 +4,7 @@
 
 We need a consistent way to order instances of links across a treeset so
 that we can accurately process the operating treesets to match categories
-and features. In particular, for a single linkindex, we use a class called 
+and features. In particular, for a single linkindex, we use a class called
 a linkspec, which stores a list of the locations and categories of every
 instance of the link in a treeset. Note that a location really contains
 two pieces of information: a treeindex and an address. For example, (2,[])
@@ -23,7 +23,7 @@ the scope function for more details.
 open Unify
 open List
 open Printf
-open Basics
+open Utils
 open Tree
 
 type linkspec = linkindex * ((treeindex * address) * categ) list
@@ -41,13 +41,13 @@ let get_specs lspec = snd lspec
 (** Returns the list of addresses of all the nodes
     containing the specified linkindex in the tree. *)
 let tladds t l =
-  let rec adds t acc cur = 
+  let rec adds t acc cur =
     match t with
     | Node(_,ls,_,kids) -> if mem l ls then kadds kids (cur::acc) cur
                            else kadds kids acc cur
     | Quant(_,_,t1,t2)  -> kadds [t1;t2] acc cur
-    | Foot(_,ls,_) 
-    | Sub(_,ls,_) 
+    | Foot(_,ls,_)
+    | Sub(_,ls,_)
     | Var(_,ls,_,_)     -> if mem l ls then cur::acc else acc
     | Leaf _            -> acc
   and kadds kids parentacc cur =
@@ -70,7 +70,7 @@ let specs ts l =
       result::(aux tl (i+1)) in
   let locs = flatten (aux ts 1) in
   (* adds categories corresponding to each location *)
-  map (fun loc -> 
+  map (fun loc ->
     let (i,add) = loc in
     let node = lookup add (nth ts (i-1)) in
     (loc,cat node)) locs ;;

@@ -4,7 +4,7 @@
 
 Home of the main function.
 
-The user has the option to either interpret or compile their input, 
+The user has the option to either interpret or compile their input,
 which is explained briefly in the comments for the main function and
 more in depth in the Usage section of mctagdoc.pdf.
 
@@ -12,18 +12,18 @@ more in depth in the Usage section of mctagdoc.pdf.
 
 exception IncorrectUsage
 
-(** Parses a string and returns a parsed object, which contains a forest 
+(** Parses a string and returns a parsed object, which contains a forest
 		and derivation list. See myParser.mly for parsing rules and tokens.
 		Source: http://cseweb.ucsd.edu/classes/fa09/cse130/pa4/example/notes.html. *)
 let parse s =
 	Lexing.from_string s |> MyParser.parsed MyLexer.token ;;
 
 let compile_file input output =
-	let s = Basics.filestr input |> parse in
+	let s = Utils.filestr input |> parse in
 		Parsed.compile output s
 
 let interpret_file input =
-	let s = Basics.filestr input |> parse in
+	let s = Utils.filestr input |> parse in
 		Parsed.interpret s
 
 let infile = ref "-none given-"

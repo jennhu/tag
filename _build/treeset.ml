@@ -6,7 +6,7 @@ The class treeset represents a multicomponent set of trees in an MCTAG.
 The object contains a list of trees as well as other methods that are
 important for performing derivations, such as generating permutations,
 reordering trees according to a priority ordering, and building the link
-structure. 
+structure.
 
 Note that treesets are the domain of locality for bound variables in trees
 and features. One treeset corresponds to one function in the output file.
@@ -16,7 +16,7 @@ and features. One treeset corresponds to one function in the output file.
 open Unify
 open List
 open Printf
-open Basics
+open Utils
 open Tree
 open Links
 
@@ -38,7 +38,7 @@ let reorder s priority =
     match cur with
     | [] -> []
     | i::tl -> (ith s i)::(aux tl) in
-  let new_ts = 
+  let new_ts =
     match priority with
     | None -> ts s
     | Some p -> aux p in
@@ -50,14 +50,14 @@ let sorted_ls s =
     match t with
     | Node(_,ls,_,kids) -> fold_left aux (sort_uniq compare (acc@ls)) kids
     | Quant(_,_,l,r)    -> sort_uniq compare ((aux acc l)@(aux acc r))
-    | Foot(_,ls,_) 
-    | Sub(_,ls,_) 
+    | Foot(_,ls,_)
+    | Sub(_,ls,_)
     | Var(_,ls,_,_)     -> sort_uniq compare (acc@ls)
     | _                 -> acc in
   fold_left aux [] (ts s)
 
 (** Returns the links for the treeset. *)
-let treeset_links s = map (fun l -> (l,specs (ts s) l)) (sorted_ls s) 
+let treeset_links s = map (fun l -> (l,specs (ts s) l)) (sorted_ls s)
 (** Returns the number of trees that have a specified link. *)
 let numhaslink l s = (ts s) |> filter (haslink l) |> length
 
