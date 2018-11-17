@@ -1,6 +1,0 @@
-TODO:
-
-- fix features with variables - doesn't work across treeset yet
-- clean up (especially derive.ml, links.ml) and comment
-- format module for printing
-- problem with multiple derivations - features get overwritten

@@ -2,7 +2,7 @@
 
 The system allows a user to specify a synchronous multicomponent tree-adjoining grammar (STAG) using an intuitive, text-based metagrammar. It then automates the specified derivations and outputs the derived trees.
 
-This README is only meant to get you started. Refer to `doc/mctagdoc.pdf` for in-depth documentation. These [slides](jennhu.github.io/assets/pdf/LING98aPresentation.slides.pdf) may also be helpful.
+This README is only meant to get you started. Refer to `doc/mctagdoc.pdf` for in-depth documentation. These [slides](https://jennhu.github.io/assets/pdf/LING98aPresentation.slides.pdf) may also be helpful.
 
 ## Getting started
 
