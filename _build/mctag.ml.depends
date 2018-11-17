@@ -1,1 +1,1 @@
-mctag.ml: Arg Lexing MyLexer MyParser Parsed Utils
+mctag.ml: Arg Lexing Parsed TagLexer TagParser Utils

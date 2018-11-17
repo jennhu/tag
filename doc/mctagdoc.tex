@@ -28,68 +28,84 @@
 \usepackage{tgpagella} %font
 \setlength{\columnsep}{0.5cm}
 
-\title{A System for Testing Synchronous Tree-Adjoining Grammar Analyses of Linguistic Phenomena}
+\title{A System for Testing\\Synchronous Tree-Adjoining Grammar\\Analyses of Linguistic Phenomena}
 \author{Jennifer Hu}
 \date{\today}
- 
+
 \begin{document}
- 
+
 \maketitle
- 
-\tableofcontents 
- 
+
+\tableofcontents
+
 \newpage
 
 \section{Getting Started}
 
-This system automates the derivations specified by a synchronous multicomponent tree-adjoining grammar, allowing the linguist to rigorously test his/her analyses of linguistic phenomena. The user begins by specifying a high-level description of the grammar following a notation for trees, links, etc. described in the Metagrammar section of this document. The system then parses this textual input, performs the user-specified derivations, and outputs the derived trees in an intuitive bracketed notation. See the Usage section for more details.
+This system automates the derivations specified by a synchronous multicomponent tree-adjoining grammar (STAG). The user begins by specifying a high-level description of the grammar, using the notation described in Section \ref{sec:metagrammar}. The system then parses this textual input, performs the user-specified derivations, and prints the derived trees in an intuitive bracketed form.
+
+For an introduction to TAGs, \href{http://www.seas.upenn.edu/~cis477/ltag-paper.pdf}{Joshi \& Schabes (1997)} is a good place to start.
+%   \begin{itemize}
+%     \item \href{http://www.seas.upenn.edu/~cis477/ltag-paper.pdf}{Joshi, A. K., \& Schabes, Y. (1997). Tree-adjoining grammars. \emph{Handbook of formal languages} (pp. 69-123). Springer Berlin Heidelberg.}
+%     \item \href{https://dash.harvard.edu/handle/1/2265291}{Shieber, S. M., \& Schabes, Y. (1990, August). Synchronous tree-adjoining grammars. \emph{Proceedings of the 13th conference on Computational Linguistics - Volume 3} (pp. 253-258). Association for Computational Linguistics.}
+% \end{itemize}
 
 \subsection{Acknowledgments}
-This system was developed in summer 2016 with Professor Stuart M. Shieber at Harvard University.
+This system was developed in collaboration with Stuart Shieber and Cristina Aggazzotti during the summer of 2016. I was supported by the Harvard College Program for Research in Science and Engineering.
 
-\subsection{Prerequisites \& Background}
-  \begin{itemize}
-    \item OCaml 4.02 (or later) and Ocaml Menhir are required. Once OCaml is installed, Menhir can be installed through a simple \code{opam install menhir} command. 
-    \item For more background information on tree-adjoining grammars, the following papers are a good place to start:
-    	\begin{itemize}
-    		\item \href{http://www.seas.upenn.edu/~cis477/ltag-paper.pdf}{Joshi, A. K., \& Schabes, Y. (1997). Tree-adjoining grammars. In \emph{Handbook of formal languages} (pp. 69-123). Springer Berlin Heidelberg.}
-    		\item \href{https://dash.harvard.edu/handle/1/2265291}{Shieber, S. M., \& Schabes, Y. (1990, August). Synchronous tree-adjoining grammars. In \emph{Proceedings of the 13th conference on Computational linguistics-Volume 3} (pp. 253-258). Association for Computational Linguistics.}
-		\end{itemize}    	 
-  \end{itemize}
+\subsection{Dependencies}
+You will need OCaml 4.02 (or later) and Menhir. Refer to the \href{https://ocaml.org/docs/install.html}{OCaml docs} for installation instructions. If you install the package manager \href{https://opam.ocaml.org/}{OPAM} with OCaml, Menhir can be installed with
+\code{opam install menhir}.
 
-\section{Usage}
+You may compile the files with your favorite OCaml compiler, but I suggest \href{https://github.com/ocaml/ocamlbuild}{Ocamlbuild}, which can be installed through OPAM with \code{opam install ocamlbuild}.
 
-\subsection{Building the Project}
-To build all the files for the first time, run \code{ocamlbuild -use-menhir mctag.byte}. A sample grammar, specified in \code{in.txt}, has already been compiled and is ready to run with the command \code{./out.byte}.
+\subsection{Building}
+To build all the files for the first time, run the command \code{ocamlbuild -use-menhir mctag.byte}.
 
-\subsection{Writing Your Own Grammars}
-  \begin{itemize}
-    \item To learn the metagrammar rules, refer to the Metagrammar section of this document. This document also contains a toy grammar to help the user get started.
-	\item The files \code{in.txt}, \code{test.txt}, and \code{paper.txt} contain full-sized grammars dealing with a variety of linguistic phenomena such as reflexives, topicalization, features unification, and quantifier scope. They can be found in the \code{grammars} folder. The corresponding output files \code{out.ml}, \code{test.ml}, and \code{paper.ml} are all ready to be compiled and run.
-  \end{itemize}
+This command creates a \code{\textunderscore build} directory within your current working directory. The executables will be stored there, but a symlink should be created in your current directory. If you can't find the target \code{mctag.byte} file, look under \code{\textunderscore build}.
 
-\subsection{Using the Project}
-  \begin{itemize}
-    \item The user must input the grammar and derivation trees in an input file following the convention described in the section "The Metagrammar."
-	\item The user can then choose to either directly perform the derivations and print the resulting derived treesets to standard output (\code{interpret} mode) or compile the forest and derivations into an \code{.ml} file and separately compile/run the output file (\code{compile} mode).
-	\item To interpret, run \code{./mctag.byte -i <input file>}.
-	\item To compile, run \code{./mctag.byte -c <input file> <output file>}, then \code{ocamlbuild <output file>.byte} to build the output file. To run the output file, use \code{./<output file>.byte}.
-	\item For a full list of options at any time, run \code{./mctag.byte -help}.
-  \end{itemize}
+\subsection{Usage}
+To use the system, you must specify the grammar and derivation trees in an input file following the convention described in Section \ref{sec:metagrammar}.
+% \item The user can then choose to either directly perform the derivations and print the resulting derived treesets to standard output (\code{interpret} mode) or compile the forest and derivations into an \code{.ml} file and separately compile/run the output file (\code{compile} mode).
+Run the command \code{./mctag.byte -i <input file>} to perform the derivations and print the resulting derived treesets to standard output.
+% \item To compile, run \code{./mctag.byte -c <input file> <output file>}, then \code{ocamlbuild <output file>.byte} to build the output file. To run the output file, use \code{./<output file>.byte}.
+For a full list of options at any time, run \code{./mctag.byte -help}.
 
-\section{The Metagrammar}
+As a test, try running \code{./mctag.byte -i grammars/toy.txt}. If you see the derived syntax and semantics trees for ``John saw a girl'', then the system is working! %A sample grammar, specified in \code{in.txt}, has already been compiled and is ready to run with the command \code{./out.byte}.
+
+\subsection{Sample Grammars}
+
+The quickest way to learn the metagrammar may be to tweak existing example grammars. The project comes with the following sample grammars, which illustrate a wide variety of linguistic phenomena:
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[!ht]
+  \centering
+  \begin{tabular}{|l|p{0.7\textwidth}|}
+    \hline
+    \textbf{Path} & \textbf{Description} \\ \hline
+    \code{grammars/toy.txt} & Toy grammar to derive `John saw a girl' \\ \hline
+    \code{grammars/example.txt} & Full grammar with analyses of reflexives, topicalization, quantifier scope ambiguity, adjunction at substitution nodes, etc. \\ \hline
+    \code{grammars/paper.txt} & Grammar to derive trees from \href{http://aclweb.org/anthology/W/W17/W17-6204.pdf}{Aggazzotti \& Shieber (2017)} \\ \hline
+    \code{grammars/features.txt} & Grammar with analyses of features. Contains Cristina's trees with features (commented out). Note that the current implementation of feature unification is destructive. \\
+    \hline
+  \end{tabular}
+  \label{table:grammars}
+\end{table}
+
+% \subsection{Writing Your Own Grammars}
+%   \begin{itemize}
+%     \item Section \ref{sec:metagrammar} describes the metagrammar for specifying a STAG.
+% 	\item The files \code{in.txt}, \code{test.txt}, and \code{paper.txt} contain full-sized grammars dealing with a variety of linguistic phenomena such as reflexives, topicalization, features unification, and quantifier scope. They can be found in the \code{grammars} folder. The corresponding output files \code{out.ml}, \code{test.ml}, and \code{paper.ml} are all ready to be compiled and run.
+%   \end{itemize}
+
+\section{The Metagrammar} \label{sec:metagrammar}
 
 The metagrammar provides the convention for specifying a multicomponent tree-adjoining grammar and its derivation trees. This section is broken into three subsections, which contain general rules as well as concrete examples highlighted in blue.
 
 \subsection{General}
   \begin{itemize}
-    \item Spaces, tabs, and newlines are ignored.
-	\item Supports nested comments delimited by curly braces \code{\{\}}.
-	\item Can use any alphanumeric character, hyphens, and underscores
-	  for identifiers and lexical items. The user should note that
-	  characters with special OCaml semantics will cause issues when
-	  building the compiled output file, e.g. \code{-} and \code{/}.
-	  This shouldn't matter for interpreting.
+  \item Spaces, tabs, and newlines are ignored.
+	\item Nested comments are delimited by curly braces \code{\{\}}.
+	\item You can use alphanumeric characters, hyphens, and underscores for identifiers and lexical items. %The user should note that characters with special OCaml semantics will cause issues when building the compiled output file, e.g. \code{-} and \code{/}. This shouldn't matter for interpreting.
   \end{itemize}
 
 \subsection{Forests}
@@ -98,35 +114,37 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
   \begin{itemize}
 	\item Trees are recursively contained within brackets \code{[]}.
     \item Require a category and can include an operation marker, links, features, kids, or a lexical item.
-	  
+
 	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
+{ syntax tree for `likes' }
 	[s@1@2 [np!@1 (case:nom)] [vp@3 [v `likes'] [np!@2 (case:acc)]]]
 	\end{verbatim}
 	\end{mdframed}
   \end{itemize}
-  
+
 \subsubsection{Words}
   \begin{itemize}
 	\item Lexical items are delimited by single quotation marks.
-	\item Note that multi-word lexical items, such as "each other" or "john and mary",
+	\item Note that multi-word lexical items, such as "each other" or "John and Mary",
 	  should not contain spaces, as they will not be properly parsed.
-	  
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	[np `john_and_mary']
 	\end{verbatim}
 	\end{mdframed}
   \end{itemize}
-  
+
 \subsubsection{Quantifiers and Variables}
   \begin{itemize}
 	\item Quantifiers themselves are treated similarly to categories,
 	  but a quantifier tree takes in a variable and two propositions (trees).
 	\item Bound variables are preceded by a \code{\$} and have scope in the treeset.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
+{ semantics tree for `someone' }
 	[exists $x [t [et `person'] [e $x]] [t*]]]
 	\end{verbatim}
 	\end{mdframed}
@@ -135,8 +153,8 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 \subsubsection{Substitution Nodes}
   \begin{itemize}
 	\item Substitution nodes are marked with a \code{!} after the category.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}[np!]
 	\end{verbatim}
 	\end{mdframed}
@@ -145,8 +163,8 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 \subsubsection{Foot Nodes}
   \begin{itemize}
 	\item Foot nodes are marked with a \code{*} after the category.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	[vp [adv `apparently'] [vp*]]
 	\end{verbatim}
@@ -156,10 +174,10 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 \subsubsection{Links}
   \begin{itemize}
 	\item Links signify relationships between operable sites across the treeset.
-	\item Specified by \code{@<link index>}, where the index is represented as an int.
+	\item Specified by \code{@<link index>}, where the index is represented as an \code{int}.
 	\item Note that a node can have multiple links, a single link, or no link at all.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	[s@1 [np!@1] [vp [v `sleeps']]]
 	\end{verbatim}
@@ -170,11 +188,11 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
   \begin{itemize}
 	\item A feature structure is represented as a semicolon-separated list of
 	  (feature,value) pairs, where each pair is represented by \code{<feature> : <value>}.
-	  The whole list is then delimited by parentheses \code{()}. 
-	\item To specify top features for a node, simply use this notation, and to specify bottom features for a node, precede the list with a period. 
+	  The whole list is then delimited by parentheses \code{()}.
+	\item To specify top features for a node, simply use this notation, and to specify bottom features for a node, precede the list with a period.
 	\item If no features are specified, the parser will create empty feature structures.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	[np@1 .(num : sg; per : 3) `bill'], [e!@2 (case: acc)]
 	\end{verbatim}
@@ -184,8 +202,8 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 \subsubsection{Treesets}
   \begin{itemize}
 	\item A treeset is a list of trees, preceded with \code{SET <id>:}, separated by semicolons, and ended with a period.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	SET himself:
 	    [s*@1] ; [s*@2] ;
@@ -199,19 +217,21 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 \subsubsection{Forests}
   \begin{itemize}
 	\item A forest is a list of treesets, preceded with \code{FOREST <id> =}.
-    
-    \begin{mdframed}[backgroundcolor=blue!5] 
+
+    \begin{mdframed}[backgroundcolor=blue!5]
     \begin{verbatim}
-	FOREST example =
+	FOREST people =
 	    SET jenn:
-	        [np `jenn'] ; [e 'j'].
+	        [np `jenn'] ; [e `j'].
+      SET stuart:
+	        [np `stuart'] ; [e `s'].
 	    SET cristina:
-	        [np `cristina']; [e 'c'].
+	        [np `cristina']; [e `c'].
 	\end{verbatim}
 	\end{mdframed}
   \end{itemize}
 
-\subsection{Derivations}			
+\subsection{Derivations}
 
 \subsubsection{Basic Derivation Trees}
   \begin{itemize}
@@ -219,8 +239,8 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 	\item The actual recursive structure contains a lexical item, which identifies a treeset in the forest, and a list of links matched with the sets meant to operate at those links.
 	\item The link, represented as \code{@<link index>}, is followed by a colon \code{:} and the name of the set in brackets \code{[]}.
 	\item Every link in the host treeset must be specified, even if it is empty (e.g. \code{@3:[]} in the example below). If you forget to do this, the system will raise the exception \code{Not\textunderscore found}.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	{ Derives the topicalized sentence "Everyone someone likes (t)" }
 	DERIV everyone_top:
@@ -235,8 +255,8 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 \subsubsection{Multiple Sets per Link}
   \begin{itemize}
 	\item To specify that multiple sets operate at a single link, concatenate the sets with a plus \code{+}.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	{ Derives the sentence "John quite apparently likes Mary" }
 	DERIV johnlikesmary:
@@ -252,16 +272,16 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
   \begin{itemize}
 	\item To specify different scope orderings when two trees could adjoin at the same node,
 	  simply order the set with higher scope before the set with lower scope.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	DERIV forall_exists: { forall > exists }
-	    likes 
+	    likes
 	        @2:[everyone]
 	        @1:[someone]
 	        @3:[].
 	DERIV exists_forall: { exists > forall }
-	    likes 
+	    likes
 	        @1:[someone]
 	        @2:[everyone]
 	        @3:[].
@@ -273,10 +293,10 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
   \begin{itemize}
 	\item To specify that a set operates at multiple links, concatenate the links with a plus \code{+}.
 	\item The system will test different partitions of the set across the links to find one that matches the categories and operations specified by the target treeset.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
-	{ Derives the sentence "John saw himself" } 
+	{ Derives the sentence "John saw himself" }
 	DERIV refl_john:
 	    saw { The reflexive set operates at links 1 and 2 in the verb set }
 		    @1+@2:[himself
@@ -292,8 +312,8 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 	\item Ambiguities can arise when there are multiple ways to partition a set that is meant to be used across multiple links. We address this issue by (1) allowing the user to provide a priority ordering of trees in the treeset, and (2) generating permutations of the trees in the set in lexicographic order, i.e. in increasing number of inversions. This ensures that in the case of ambiguous orderings of trees, the system chooses the one closest to the ordering preferred by the user.
 	\item The ordering is specified by a semicolon-separated list of tree indices, represented as ints, and delimited by parentheses \code{()}. It should come after the name of the set in the derivation.
 	\item If no order is specified, we simply use the order of the trees specified in the grammar.
-	
-	\begin{mdframed}[backgroundcolor=blue!5] 
+
+	\begin{mdframed}[backgroundcolor=blue!5]
 	\begin{verbatim}
 	{ Both derive the sentence "John saw himself", but avoids ambiguities }
 	DERIV refl_john1:
@@ -312,9 +332,9 @@ The metagrammar provides the convention for specifying a multicomponent tree-adj
 	\end{mdframed}
   \end{itemize}
 
-\section{Toy Grammar} 
+\section{Toy Grammar}
 
-\begin{mdframed}[backgroundcolor=blue!5] 
+\begin{mdframed}[backgroundcolor=blue!5]
 \begin{verbatim}
 { Derives "John saw Mary" with features }
 FOREST toy =
@@ -336,80 +356,81 @@ DERIV johnsawmary:
 \end{mdframed}
 
 \section{Code Structure}
-The code is organized into the following files, grouped together by the purpose they serve in the project. For more information on any of the files, please refer to the comments in the code.
+% The code is organized into the following files, grouped together by the purpose they serve in the project. For more information on any of the files, please refer to the comments in the code.
 
-\subsection{Sample Input \& Output Files}
-\begin{itemize}
-	\item \code{in.txt} \& \code{out.ml}
-	
-	Contains analyses of reflexives, quantifier scope ambiguity, topicalization, adjunction at substitution nodes, and more.
-	\item \code{paper.txt} \& \code{paper.ml}
-	
-	Contains analyses from Cristina's paper.
-	\item \code{test.txt} \& \code{test.ml}
-	
-	Contains analyses of basic feature structures. A full version of Cristina's trees with features is commented out in the file.
-\end{itemize}
+% \subsection{Sample Grammars}
+% \begin{itemize}
+% 	\item \code{in.txt} \& \code{out.ml}
+%
+% 	Contains analyses of reflexives, quantifier scope ambiguity, topicalization, adjunction at substitution nodes, and more.
+% 	\item \code{paper.txt} \& \code{paper.ml}
+%
+% 	Contains analyses from Cristina's paper.
+% 	\item \code{test.txt} \& \code{test.ml}
+%
+% 	Contains analyses of basic feature structures. A full version of Cristina's trees with features is commented out in the file.
+% \end{itemize}
 
 \subsection{Parsing \& Lexing}
 \begin{itemize}
-	\item \code{myLexer.ml} \& \code{myLexer.mll}
-	
-	Lexer. Contains rules for separating the stream of characters from the input file into tokens.
-	\item \code{myParser.ml} \& \code{myParser.mly}
-	
-	Parser. Contains rules for assigning semantic content to these tokens.
+	\item \code{tagLexer.mll}
+
+	Lexer containing rules for separating the stream of characters from the input file into tokens.
+	\item \code{tagParser.mly}
+
+	Parser containing rules for assigning semantic content to the lexed tokens.
 \end{itemize}
 
-\subsection{Classes, Objects, \& Derivations}
+\subsection{STAG Operations}
 \begin{itemize}
 	\item \code{unify.ml}
-	
+
 	The \code{fs} class, which corresponds to feature structures.
 	\item \code{tree.ml}
-	
+
 	The \code{tree} class.
 	\item \code{links.ml}
-	
+
 	The \code{links} class, which creates a reference for the locations and categories associated with every instance of every link in a treeset.
 	\item \code{treeset.ml}
-	
+
 	The \code{treeset} class.
 	\item \code{forest.ml}
-	
+
 	The \code{forest} class, which contains a list of \code{treeset}s.
 	\item \code{argument.ml}
-	
+
 	The \code{argument} class, which specifies the relationship between \code{treeset}s and the sets of links where they are expected to operate.
 	\item \code{derive.ml}
-	
+
 	Contains the functions needed to actually perform MCTAG derivations, including the substitution and adjunction operations.
 	\item \code{derivation.ml}
-	
+
 	The \code{derivation} class, which corresponds to a derivation tree.
 	\item \code{parsed.ml}
-	
+
 	The \code{parsed} class, which contains a \code{forest} and a list of \code{derivation}s.
 \end{itemize}
 
 \subsection{Miscellaneous}
 \begin{itemize}
-	\item \code{basics.ml}
-	
+	\item \code{utils.ml}
+
 	Contains helper functions for basic data types like lists and strings, including functions for generating combinations/permutations and printing.
 	\item \code{mctag.ml}
-	
+
 	Contains the main function and parses the command-line arguments.
 \end{itemize}
 
-\section{Known Issues} 
-As this project is still in process, there are a few known issues that we are actively trying to resolve. Below is a list of these issues with their temporary workarounds. Any comments, suggestions, or questions are welcome at \href{mailto:jenniferhu@college.harvard.edu}{jenniferhu@college.harvard.edu}.
+\section{Known Issues}
+Current known issues:
 
 \begin{itemize}
-	\item Feature structure unification does not work for variables across a treeset yet, but this should be resolved soon.
-	\item As features are unified and destructively modified during every derivation, multiple derivations using the same treeset cannot properly be performed. For the time being, I only perform derivations one at a time, but I am working on creating copies of features structures to allow for multiple derivations.
-	%\item I am currently using a \code{.sh} file for building the project instead of a Makefile for a variety of reasons. First, I would prefer to generate two executables (one for \code{./interpret} and one for \code{./compile}, but there is no elegant way to do this with OCamlMakeFile. Second, using a Makefile would require the user to deal with the OcamlMakeFile and might cause trouble if they accidentally modify the file or change its local path.
-
+	\item Feature structure unification does not work for variables across a treeset.
+	\item As features are unified and destructively modified during every derivation, multiple derivations using the same treeset cannot properly be performed. Currently, the user can only perform one feature-based derivation at a time.
+  \item Brackets are not properly indented during tree printing.
 \end{itemize}
+
+Feel free to raise an issue or create a pull request at \url{https://github.com/jennhu/tag}.
 
 \end{document}

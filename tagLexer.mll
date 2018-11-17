@@ -1,5 +1,5 @@
-{ 
-open MyParser 
+{
+open TagParser 
 }
 
 rule token = parse
@@ -10,18 +10,18 @@ rule token = parse
   | "'" { QUOTE }   | "{" { comments 0 lexbuf }
 
   (* Symbols for substitution, adjunction, links, and variables. *)
-  | "!" { SUB }     | "*" { FOOT }    
+  | "!" { SUB }     | "*" { FOOT }
   | "@" { AT }      | "$" { VAR }
 
   (* Keywords for forests, multicomponent tree sets, and derivation trees. *)
-  | "FOREST" { FOREST } | "SET" { SET }   
-  | "="      { EQ }     | ":"   { COL }     
+  | "FOREST" { FOREST } | "SET" { SET }
+  | "="      { EQ }     | ":"   { COL }
   | ";"      { SEM }    | "."   { PER }
-  | "DERIV"  { DERIV }  | "&"   { AND }    
+  | "DERIV"  { DERIV }  | "&"   { AND }
   | "+"      { PLUS }
 
   (* Identifiers. Spaces, tabs, and newlines are ignored. *)
-  | [' ''\t''\n']         { token lexbuf } 
+  | [' ''\t''\n']         { token lexbuf }
   | ['a'-'z''-''A'-'Z''_'
      '0'-'9' '/']* as s   { ID(s) }
   | _ as chr              { failwith ("Invalid char: "^(Char.escaped chr)) }
@@ -34,4 +34,4 @@ and comments level = parse
   | "{"   { comments (level+1) lexbuf }
   | _     { comments level lexbuf }
   | eof   { print_endline "Comment not closed";
-            raise End_of_file } 
+            raise End_of_file }

@@ -39,11 +39,11 @@ let interpret p =
 
 (** Compiles the input into a specified output file. The user must independently
 		compile and run the output file to print the derived trees. *)
-let compile (outfile:string) p =
+(* let compile (outfile:string) p =
   let header = "open Unify\nopen Tree\nopen Treeset\nopen Argument\nopen Derive" in
   let oc = open_out outfile in
     fprintf oc "%s\n"
     	(sep "\n\n" [header; sprintf "(* FOREST \"%s\" *)" (forest_id (get_forest p));
     							 (forest_tostring (get_forest p)); "(* DERIVATION TREES *)";
     							 sep "\n\n" (map deriv_tofunction (get_derivs p))]) ;
-  	close_out oc
+  	close_out oc *)

@@ -1,8 +1,8 @@
 # Automating synchronous multicomponent tree-adjoining grammar derivations
 
-This system allows a user to specify a synchronous multicomponent tree-adjoining grammar (STAG) using an intuitive, text-based metagrammar. It then automates the specified derivations and outputs the derived trees.
+The system allows a user to specify a synchronous multicomponent tree-adjoining grammar (STAG) using an intuitive, text-based metagrammar. It then automates the specified derivations and outputs the derived trees.
 
-This README is only meant to get the user started -- please refer to `doc/mctagdoc.pdf` for in-depth documentation.
+This README is only meant to get you started. Refer to `doc/mctagdoc.pdf` for in-depth documentation. These [slides](jennhu.github.io/assets/pdf/LING98aPresentation.slides.pdf) may also be helpful.
 
 ## Getting started
 
@@ -37,7 +37,7 @@ To help the user get off the ground, the repo contains several sample grammars i
 
 to print the derived syntax and semantics trees for the sentence 'John saw a girl'.
 
-The `-i` flag toggles `interpret` mode. You can also pass the `-c` flag to toggle `compile` mode. This compiles the specified forest and derivations into an `.ml` file. To see the final trees, you will need to separately compile and run the output file. Try running
+<!-- The `-i` flag toggles `interpret` mode. You can also pass the `-c` flag to toggle `compile` mode. This compiles the specified forest and derivations into an `.ml` file. To see the final trees, you will need to separately compile and run the output file. Try running
 
 ```bash
 ./mctag.byte -c grammars/toy.txt toy.ml
@@ -45,19 +45,20 @@ ocamlbuild toy.byte
 ./toy.byte
 ```
 
-to compile the trees, generate an executable, and then print the derived trees.
+to compile the trees, generate an executable, and then print the derived trees. -->
 
-Here is a full list of the example grammars.
+A full list of example grammars is provided below.
 
 | Path                  | Description                                    |
 | --------------------- | ---------------------------------------------- |
 | `grammars/toy.txt`    | 'John saw a girl'                              |
-| `grammars/in.txt`     | Reflexives, topicalization, quantifier scope   |
+| `grammars/example.txt`| Reflexives, topicalization, quantifier scope ambiguity, adjunction at substitution nodes, etc.  |
 | `grammars/paper.txt`  | Trees from [Aggazzotti & Shieber (2017)](http://aclweb.org/anthology/W/W17/W17-6204.pdf)       |
+| `grammars/features.txt`  | Basic analyses of features -- see doc for more details |
 
 ### Writing your own grammars
 You can specify your own STAGs using the metagrammar specified in the full documentation under `doc/mctagdoc.pdf`.
 
 ## Acknowledgments
 
-This system was developed in collaboration with Stuart Shieber during the summer of 2016.
+This system was developed in collaboration with Stuart Shieber and Cristina Aggazotti during the summer of 2016.

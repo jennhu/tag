@@ -29,8 +29,12 @@ setup.log
 *.log
 *.out
 *.toc
+*.fdb_latexmk
+*.synctex.gz
+*.fls
 
 # testing
 grammars/test.txt
 test.ml
 ocamldoc/
+doc/TODO.txt

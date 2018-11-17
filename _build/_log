@@ -1,6 +1,10 @@
 ### Starting build.
-# Target: toy.ml.depends, tags: { extension:ml, file:toy.ml, ocaml, ocamldep, quiet }
-/usr/local/bin/ocamldep.opt -modules toy.ml > toy.ml.depends
+# Target: mctag.ml.depends, tags: { extension:ml, file:mctag.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules mctag.ml > mctag.ml.depends # cached
+# Target: parsed.ml.depends, tags: { extension:ml, file:parsed.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules parsed.ml > parsed.ml.depends # cached
+# Target: derivation.ml.depends, tags: { extension:ml, file:derivation.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules derivation.ml > derivation.ml.depends # cached
 # Target: argument.ml.depends, tags: { extension:ml, file:argument.ml, ocaml, ocamldep, quiet }
 /usr/local/bin/ocamldep.opt -modules argument.ml > argument.ml.depends # cached
 # Target: tree.ml.depends, tags: { extension:ml, file:tree.ml, ocaml, ocamldep, quiet }
@@ -29,10 +33,34 @@
 /usr/local/bin/ocamldep.opt -modules derive.ml > derive.ml.depends # cached
 # Target: derive.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:derive.cmo, file:derive.ml, implem, ocaml, quiet }
 /usr/local/bin/ocamlc.opt -c -o derive.cmo derive.ml # cached
-# Target: toy.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:toy.cmo, file:toy.ml, implem, ocaml, quiet }
-/usr/local/bin/ocamlc.opt -c -o toy.cmo toy.ml
-+ /usr/local/bin/ocamlc.opt -c -o toy.cmo toy.ml
-File "john_saw_a_girl", line 0, characters 27-40:
-Error: Unbound value makearguments
-Command exited with code 2.
-# Compilation unsuccessful.
+# Target: forest.ml.depends, tags: { extension:ml, file:forest.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules forest.ml > forest.ml.depends # cached
+# Target: forest.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:forest.cmo, file:forest.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o forest.cmo forest.ml # cached
+# Target: derivation.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:derivation.cmo, file:derivation.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o derivation.cmo derivation.ml # cached
+# Target: parsed.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:parsed.cmo, file:parsed.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o parsed.cmo parsed.ml # cached
+# Target: tagLexer.mll, tags: { extension:mll, file:tagLexer.mll, lexer, ocaml, ocamllex, quiet }
+/usr/local/bin/ocamllex.opt -q tagLexer.mll # cached
+# Target: tagLexer.ml.depends, tags: { extension:ml, file:tagLexer.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules tagLexer.ml > tagLexer.ml.depends # cached
+# Target: tagParser.mly.depends, tags: { extension:mly, file:tagParser.mly, infer, menhir_ocamldep, ocaml, ocamldep, quiet }
+menhir --raw-depend --ocamldep '/usr/local/bin/ocamldep.opt -modules' tagParser.mly > tagParser.mly.depends # cached
+# Target: tagParser.mly, tags: { byte, compile, extension:ml, extension:mly, file:tagParser.ml, file:tagParser.mly, infer, menhir, ocaml, parser, quiet }
+menhir --ocamlc /usr/local/bin/ocamlc.opt --infer tagParser.mly # cached
+# Target: tagParser.mli.depends, tags: { extension:mli, file:tagParser.mli, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules tagParser.mli > tagParser.mli.depends # cached
+# Target: tagParser.cmi, tags: { byte, compile, extension:mli, file:tagParser.mli, interf, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o tagParser.cmi tagParser.mli # cached
+# Target: tagLexer.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tagLexer.cmo, file:tagLexer.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o tagLexer.cmo tagLexer.ml # cached
+# Target: mctag.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:mctag.cmo, file:mctag.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o mctag.cmo mctag.ml # cached
+# Target: tagParser.ml.depends, tags: { extension:ml, file:tagParser.ml, ocaml, ocamldep, quiet }
+/usr/local/bin/ocamldep.opt -modules tagParser.ml > tagParser.ml.depends # cached
+# Target: tagParser.cmo, tags: { byte, compile, extension:cmo, extension:ml, file:tagParser.cmo, file:tagParser.ml, implem, ocaml, quiet }
+/usr/local/bin/ocamlc.opt -c -o tagParser.cmo tagParser.ml # cached
+# Target: mctag.byte, tags: { byte, dont_link_with, extension:byte, file:mctag.byte, link, ocaml, program, quiet }
+/usr/local/bin/ocamlc.opt unify.cmo utils.cmo tree.cmo links.cmo treeset.cmo argument.cmo derive.cmo forest.cmo derivation.cmo parsed.cmo tagParser.cmo tagLexer.cmo mctag.cmo -o mctag.byte # cached
+# Compilation successful.

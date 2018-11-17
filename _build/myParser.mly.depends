@@ -1,2 +1,0 @@
-myParser.ml: Argument Derivation Forest Lexing Parsed Tree Treeset Unify
-myParser.mli: Lexing Parsed
